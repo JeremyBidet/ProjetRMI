@@ -2,8 +2,10 @@
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
+import java.util.PriorityQueue;
 
 public class VehicleImpl extends UnicastRemoteObject implements Vehicle{
 
@@ -16,6 +18,7 @@ public class VehicleImpl extends UnicastRemoteObject implements Vehicle{
 	private int rented;
 	private double price;
 	private final List<Commentary> com;
+	private final PriorityQueue<User> wishlist;
 	
 	public  VehicleImpl(int year, String model, double price) throws RemoteException{
 		this.year = year;
@@ -23,6 +26,7 @@ public class VehicleImpl extends UnicastRemoteObject implements Vehicle{
 		this.price = price;
 		this.rented = 0;
 		this.com = new ArrayList<Commentary>();
+		this.wishlist = new PriorityQueue<User>();
 	}
 	
 	@Override
