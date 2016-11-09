@@ -1,8 +1,6 @@
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 public class VehicleImpl extends UnicastRemoteObject implements Vehicle {
@@ -14,7 +12,6 @@ public class VehicleImpl extends UnicastRemoteObject implements Vehicle {
 	private final String model;
 	private int rented;
 	private double price;
-	private final List<Comment> comments;
 
 	public VehicleImpl(String matricul) throws RemoteException {
 		this.matricul = matricul;
@@ -22,7 +19,6 @@ public class VehicleImpl extends UnicastRemoteObject implements Vehicle {
 		this.model = null;
 		this.price = 0;
 		this.rented = 0;
-		this.comments = null;
 	}
 	
 	public VehicleImpl(String matricul, int year, String model, double price) throws RemoteException {
@@ -31,7 +27,6 @@ public class VehicleImpl extends UnicastRemoteObject implements Vehicle {
 		this.model = Objects.requireNonNull(model, "Invalide model name");
 		this.price = price;
 		this.rented = 0;
-		this.comments = new ArrayList<Comment>();
 	}
 
 	@Override
@@ -62,11 +57,6 @@ public class VehicleImpl extends UnicastRemoteObject implements Vehicle {
 	@Override
 	public void rent() throws RemoteException {
 		this.rented++;
-	}
-
-	@Override
-	public Comment[] getComment() throws RemoteException {
-		return (Comment[]) this.comments.toArray();
 	}
 
 	@Override

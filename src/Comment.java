@@ -1,12 +1,26 @@
+import java.util.Objects;
 
-import java.rmi.Remote;
-import java.rmi.RemoteException;
+public class Comment {
 
-public interface Comment extends Remote {
+	private final int mark;
+	private final User author;
+	private final String comment;
 
-	int getMark() throws RemoteException;
+	public Comment(int mark, User author, String comment) {
+		this.author = Objects.requireNonNull(author);
+		this.mark = mark;
+		this.comment = comment;
+	}
 
-	User getAuthor() throws RemoteException;
+	public int getMark() {
+		return mark;
+	}
 
-	String getComment() throws RemoteException;
+	public User getAuthor() {
+		return author;
+	}
+
+	public String getComment() {
+		return comment;
+	}
 }

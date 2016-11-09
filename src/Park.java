@@ -15,12 +15,12 @@ public interface Park extends Remote {
 
 	Vehicle[] searchByYear(int year) throws RemoteException;
 
-	boolean isBuyable(String vehicle) throws RemoteException;
-
 	boolean buy(String vehicle) throws RemoteException;
-
-	double getPrice(String vehicle) throws RemoteException;
-
+	
 	Vehicle[] getVehicles() throws RemoteException;
+	
+	Comment[] getComments(String matricul) throws RemoteException;
+	
+	boolean addComment(String matricul, String comment, int mark) throws RemoteException;
 
 }

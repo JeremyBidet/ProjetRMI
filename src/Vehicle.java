@@ -15,8 +15,6 @@ public interface Vehicle extends Remote {
 	int getNbRented() throws RemoteException;
 
 	void rent() throws RemoteException;
-	
-	Comment[] getComment() throws RemoteException;
 
 	@Override
 	public String toString();

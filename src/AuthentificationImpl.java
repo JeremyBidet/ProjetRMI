@@ -6,7 +6,7 @@ public class AuthentificationImpl extends UnicastRemoteObject implements Authent
 
 	private static final long serialVersionUID = 7031083944660693289L;
 
-	private static final HashMap<String, User> loggedInUser = new HashMap<>();
+	private static final HashMap<String, User> loggedInUser = new HashMap<String, User>();
 	
 	protected AuthentificationImpl() throws RemoteException {
 		super();
