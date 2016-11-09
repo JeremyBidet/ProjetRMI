@@ -1,17 +1,16 @@
-
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 
 public class Professor extends UnicastRemoteObject implements Role {
 
+	private static final long serialVersionUID = 5533633395426928994L;
+
 	protected Professor() throws RemoteException {
 		super();
 	}
 
-	private static final long serialVersionUID = 1L;
-
 	@Override
-	public String getRole() {
+	public String getRoleName() {
 		return "Professor";
 	}
 

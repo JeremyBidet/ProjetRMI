@@ -1,13 +1,10 @@
+public interface Role {
 
-import java.rmi.Remote;
+	String getRoleName();
 
-public interface Role extends Remote {
-	
-	String getRole();
-	
 	boolean canAddVehicle();
-	
+
 	boolean canRemoveVehicle();
-	
+
 	int getPriority();
 }
