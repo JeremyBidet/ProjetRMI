@@ -3,6 +3,11 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.rmi.RemoteException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -33,8 +38,8 @@ public class Utils {
 			return values.stream().filter(hm -> hm.get(header).equals(value)).findAny().get();
 		}
 
-		public Object findSiblingByHeaders(String srcHeader, Object value, String trgHeader) {
-			return findValuesByHeader(srcHeader, value).get(trgHeader);
+		public Object findSiblingByHeaderValue(String srcHeader, Object srcValue, String trgHeader) {
+			return findValuesByHeader(srcHeader, srcValue).get(trgHeader);
 		}
 		
 		@Override
@@ -112,7 +117,7 @@ public class Utils {
 		}
 	}
 	
-	public static void insertDB(String db, Object[] values) {
+	public static void insertDB(String db, Object[] values) throws RemoteException {
 		try {
 			BufferedReader br = new BufferedReader(new FileReader(new File(db + ".db")));
 			StringBuilder sb = new StringBuilder();
@@ -120,7 +125,7 @@ public class Utils {
 			while((line = br.readLine()) != null) {
 				if(Arrays.asList(line.replace("\"", "").split(",")).contains(values[0])) {
 					br.close();
-					throw new Exception("This login already exists!");
+					throw new RemoteException("This login already exists!");
 				}
 				sb.append(line).append('\n');
 			}
@@ -133,8 +138,43 @@ public class Utils {
 			bw.write(sb.toString());
 			br.close();
 			bw.close();
-		} catch (Exception e) {
+		} catch (IOException e) {
 		}
+	}
+	
+	public static void writeDB(String db, DB data) {
+		try {
+			BufferedWriter bw = new BufferedWriter(new FileWriter(new File(db + ".db")));
+			bw.write(data.toString());
+			bw.close();
+		} catch(IOException e) {
+		}
+	}
+	
+	public static String sha1(String password) {
+		String sha1 = "";
+		try {
+			MessageDigest crypt = MessageDigest.getInstance("SHA-1");
+			crypt.reset();
+			crypt.update(password.getBytes("UTF-8"));
+			sha1 = bytesToHex(crypt.digest());
+		} catch (NoSuchAlgorithmException e) {
+			e.printStackTrace();
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+		return sha1;
+	}
+	
+	private static String bytesToHex(byte[] bytes) {
+		char[] hexArray = "0123456789abcdef".toCharArray();
+	    char[] hexChars = new char[bytes.length * 2];
+	    for ( int j = 0; j < bytes.length; j++ ) {
+	        int v = bytes[j] & 0xFF;
+	        hexChars[j * 2] = hexArray[v >>> 4];
+	        hexChars[j * 2 + 1] = hexArray[v & 0x0F];
+	    }
+	    return new String(hexChars);
 	}
 
 }

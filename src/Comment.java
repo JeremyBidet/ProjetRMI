@@ -1,12 +1,16 @@
+import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
 import java.util.Objects;
 
-public class Comment {
+public class Comment extends UnicastRemoteObject {
+
+	private static final long serialVersionUID = 7051078013424508050L;
 
 	private final int mark;
-	private final User author;
+	private final IUser author;
 	private final String comment;
 
-	public Comment(int mark, User author, String comment) {
+	public Comment(int mark, IUser author, String comment) throws RemoteException {
 		this.author = Objects.requireNonNull(author);
 		this.mark = mark;
 		this.comment = comment;
@@ -16,7 +20,7 @@ public class Comment {
 		return mark;
 	}
 
-	public User getAuthor() {
+	public IUser getAuthor() {
 		return author;
 	}
 

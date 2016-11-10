@@ -1,21 +1,50 @@
 
-import java.rmi.Remote;
 import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
 
-public interface User extends Remote {
+public class User extends UnicastRemoteObject implements IUser {
 
-	public String getLogin() throws RemoteException;
+	private static final long serialVersionUID = 5158506707349816920L;
+	private final String login;
+	private final String firstname;
+	private final String lastname;
+	private final Role role;
 
-	public String getFirstname() throws RemoteException;
-
-	public String getLastname() throws RemoteException;
-
-	public Role getRole() throws RemoteException;
+	protected User(String login, String firstname, String lastname, Role role) throws RemoteException {
+		this.login = login;
+		this.firstname = firstname;
+		this.lastname = lastname;
+		this.role = role;
+	}
 
 	@Override
-	public String toString();
+	public String getLogin() throws RemoteException {
+		return this.login;
+	}
 
 	@Override
-	public boolean equals(Object o);
+	public String getFirstname() throws RemoteException {
+		return this.firstname;
+	}
+
+	@Override
+	public String getLastname() throws RemoteException {
+		return this.lastname;
+	}
+
+	@Override
+	public Role getRole() throws RemoteException {
+		return role;
+	}
+
+	@Override
+	public String toString() {
+		return this.login + ":" + this.role.name() + ":" + this.role.name();
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		return ((User) o).login.equals(this.login);
+	}
 
 }

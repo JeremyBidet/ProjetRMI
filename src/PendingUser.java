@@ -1,18 +1,18 @@
 import java.rmi.RemoteException;
 import java.util.Map;
 
-public class PendingUser implements Map.Entry<User, Long>, Comparable<PendingUser> {
+public class PendingUser implements Map.Entry<IUser, Long>, Comparable<PendingUser> {
 
-	private User key;
+	private IUser key;
 	private Long value;
 
-	public PendingUser(User user) {
+	public PendingUser(IUser user) {
 		this.key = user;
 		this.value = new Long(System.currentTimeMillis());
 	}
 
 	@Override
-	public User getKey() {
+	public IUser getKey() {
 		return this.key;
 	}
 
@@ -36,7 +36,7 @@ public class PendingUser implements Map.Entry<User, Long>, Comparable<PendingUse
 	@Override
 	public int compareTo(PendingUser o) {
 		try {
-			int priority_order = this.key.getRole().getPriority() - o.key.getRole().getPriority();
+			int priority_order = this.key.getRole().priority - o.key.getRole().priority;
 			int time_order = this.value.compareTo(o.value);
 			return priority_order != 0 ? priority_order : time_order == 0 ? 1 : time_order;
 		} catch (RemoteException e) {
