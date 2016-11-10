@@ -1,12 +1,6 @@
+public class Student implements Role {
 
-import java.rmi.RemoteException;
-import java.rmi.server.UnicastRemoteObject;
-
-public class Student extends UnicastRemoteObject implements Role {
-
-	private static final long serialVersionUID = 1L;
-
-	protected Student() throws RemoteException {
+	protected Student() {
 		super();
 	}
 

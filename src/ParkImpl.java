@@ -13,7 +13,6 @@ public class ParkImpl extends UnicastRemoteObject implements Park {
 
 	private static final long serialVersionUID = 2319278071804545900L;
 
-	private final List<User> users = new ArrayList<>();
 	private final HashMap<Vehicle, SortedSet<PendingUser>> vehicles = new HashMap<Vehicle, SortedSet<PendingUser>>();
 	private final HashMap<Vehicle, User> rentedVehicles = new HashMap<Vehicle, User>();
 	private final HashMap<Vehicle, List<Comment>> vehicleComments = new HashMap<Vehicle, List<Comment>>();
@@ -73,9 +72,9 @@ public class ParkImpl extends UnicastRemoteObject implements Park {
 	public boolean rentVehicle(String matricul) throws RemoteException {
 		Vehicle key = new VehicleImpl(matricul);
 		if(vehicles.containsKey(key)) {
-			User currentUser = null; // get user session
+			String token = null; //TODO: get user session token
 			try {
-				User user = users.stream().filter(u -> u.equals(currentUser)).findAny().get();
+				User user = AuthentificationImpl.getUser(token);
 				vehicles.get(key).add(new PendingUser(user));
 				return rentVehicle(key);
 			} catch(NoSuchElementException e) {
@@ -121,7 +120,7 @@ public class ParkImpl extends UnicastRemoteObject implements Park {
 		if(vehicles.containsKey(v)) {
 			Vehicle vehicle = vehicles.keySet().stream().filter(ve -> ve.equals(v)).findAny().get();
 			if(isBuyable(vehicle)) {
-				// link here with web services bank and buy then remove vehicle from rent
+				//TODO: link here with web services bank and buy then remove vehicle from rent
 				vehicles.remove(vehicle);
 				vehicleComments.remove(vehicle);
 				return true;
@@ -150,9 +149,9 @@ public class ParkImpl extends UnicastRemoteObject implements Park {
 	public boolean addComment(String matricul, String comment, int mark) throws RemoteException {
 		Vehicle v = new VehicleImpl(matricul);
 		if(vehicleComments.containsKey(v)) {
-			User currentUser = null; // get user session
+			String token = null; //TODO: get user session token
 			try {
-				User user = users.stream().filter(u -> u.equals(currentUser)).findAny().get();
+				User user = AuthentificationImpl.getUser(token);
 				vehicleComments.get(v).add(new Comment(mark, user, comment));
 				return true;
 			} catch(NoSuchElementException e) {
