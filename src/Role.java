@@ -1,6 +1,7 @@
+import java.io.Serializable;
 import java.util.Arrays;
 
-public enum Role {
+public enum Role implements Serializable {
 	
 	Student(2, true, true),
 	Professor(1, true, true);

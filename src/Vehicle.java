@@ -30,7 +30,7 @@ public class Vehicle extends UnicastRemoteObject implements IVehicle {
 	}
 
 	@Override
-	public String getMatricul() {
+	public String getMatricul() throws RemoteException {
 		return this.matricul;
 	}
 

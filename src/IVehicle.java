@@ -4,7 +4,7 @@ import java.rmi.RemoteException;
 
 public interface IVehicle extends Remote {
 
-	String getMatricul();
+	String getMatricul() throws RemoteException;
 
 	double getPrice() throws RemoteException;
 
