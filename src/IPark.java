@@ -15,7 +15,7 @@ public interface IPark extends Remote {
 
 	IVehicle[] searchByYear(int year) throws RemoteException;
 
-	boolean buy(String token, String vehicle) throws RemoteException;
+	boolean buy(String token, String matricul) throws RemoteException;
 	
 	IVehicle[] getVehicles(String token) throws RemoteException;
 	

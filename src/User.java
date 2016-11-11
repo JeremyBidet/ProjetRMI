@@ -46,5 +46,9 @@ public class User extends UnicastRemoteObject implements IUser {
 	public boolean equals(Object o) {
 		return ((User) o).login.equals(this.login);
 	}
+	
+	public boolean equals(String login) {
+		return this.login.equals(login);
+	}
 
 }

@@ -19,6 +19,15 @@ public class Authentication extends UnicastRemoteObject implements IAuthenticati
 
 	@Override
 	public String login(String login, String password) throws RemoteException {
+		if(loggedInUser.values().stream().anyMatch(u -> {
+			try {
+				return u.getLogin().equals(login);
+			} catch (RemoteException e) {
+				return false;
+			}
+		})) {
+			throw new RemoteException("Already logged in!");
+		}
 		Utils.DB db = Utils.parseDB("resources/users");
 		if(db.findSiblingByHeaderValue("login", login, "password").equals(password)) {
 			String token = Utils.sha1(String.valueOf(System.currentTimeMillis()));
