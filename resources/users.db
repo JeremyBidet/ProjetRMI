@@ -1,4 +1,5 @@
 "login","firstname","lastname","role","password"
+"admin@rmi.net","Admin","Admin","1","531cd7bcd239add214ba4cf98f079699ac768248"
 "jbidet@etud.u-pem.fr","Jeremy","Bidet","2","531cd7bcd239add214ba4cf98f079699ac768248"
 "eramos@etud.u-pem.fr","Enzo","Ramos","2","c1e32f2202e722ed8148727456754b373a231f2c"
 "rforax@igm.u-pem.fr","Remi","Forax","1","2bfc3c09b05aa9912c2ed1eae9114d256000b03e"
