@@ -32,6 +32,11 @@ public class PendingUser implements Map.Entry<IUser, Long>, Comparable<PendingUs
 	public String toString() {
 		return this.key.toString() + "\t(" + this.value + ")";
 	}
+	
+	@Override
+	public boolean equals(Object o) {
+		return ((PendingUser) o).key.equals(this.key);
+	}
 
 	@Override
 	public int compareTo(PendingUser o) {

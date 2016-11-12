@@ -58,7 +58,7 @@ public class Park extends UnicastRemoteObject implements IPark {
 
 	private synchronized boolean rentVehicle(IVehicle vehicle) throws RemoteException {
 		if(vehicles.containsKey(vehicle) && !rentedVehicles.containsKey(vehicle)) {
-			if(!vehicles.get(vehicle).isEmpty()) {
+			if(vehicles.get(vehicle).isEmpty()) {
 				return false;
 			}
 			PendingUser p_user = vehicles.get(vehicle).first();

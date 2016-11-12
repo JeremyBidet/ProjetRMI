@@ -29,13 +29,17 @@ public class Authentication extends UnicastRemoteObject implements IAuthenticati
 			throw new RemoteException("Already logged in!");
 		}
 		Utils.DB db = Utils.parseDB("resources/users");
-		if(db.findSiblingByHeaderValue("login", login, "password").equals(password)) {
-			String token = Utils.sha1(String.valueOf(System.currentTimeMillis()));
-			HashMap<String, Object> hm = db.findValuesByHeader("login", login);
-			Role role = Role.getById(Integer.parseInt((String) hm.get("role")));
-			IUser user = new User(login, (String) hm.get("firstname"), (String) hm.get("lastname"), role);
-			loggedInUser.put(token, user);
-			return token;
+		try {
+			if(db.findSiblingByHeaderValue("login", login, "password").equals(password)) {
+				String token = Utils.sha1(String.valueOf(System.currentTimeMillis()));
+				HashMap<String, Object> hm = db.findValuesByHeader("login", login);
+				Role role = Role.getById((int) hm.get("role"));
+				IUser user = new User(login, (String) hm.get("firstname"), (String) hm.get("lastname"), role);
+				loggedInUser.put(token, user);
+				return token;
+			}
+		} catch(Exception e) {
+			e.printStackTrace();
 		}
 		throw new RemoteException("Invalid login and/or password!");
 	}
