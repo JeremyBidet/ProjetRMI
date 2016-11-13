@@ -1,5 +1,6 @@
 import java.rmi.Remote;
 import java.rmi.RemoteException;
+import java.util.ArrayList;
 import java.util.List;
 
 public interface IPark extends Remote {
@@ -24,5 +25,5 @@ public interface IPark extends Remote {
 	
 	boolean addComment(String token, String matricul, String comment, int mark) throws RemoteException;
 	
-	List<PendingUser> pendingList(IVehicle v, String Token);
+	ArrayList<PendingUser> pendingList(IVehicle v, String Token);
 }
