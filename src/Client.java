@@ -1,8 +1,10 @@
-import java.util.List;
-import java.util.function.Consumer;
 import java.rmi.Naming;
 import java.rmi.RMISecurityManager;
 import java.rmi.RemoteException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.function.Consumer;
 
 @SuppressWarnings("deprecation")
 public class Client {
@@ -45,7 +47,7 @@ public class Client {
 			
 			Consumer<IVehicle> c1 = (v) -> {
 				try {
-					System.out.println("["+v.getMatricul()+"] " + v.getModel() + "("+v.getYear()+") " + "#"+v.getNbRented() + " @"+v.getPrice()+"$");
+					System.out.println("["+v.getMatricul()+"] " + v.getModel() + "("+v.getYear()+") " + " @"+v.getPrice()+"$");
 				} catch (RemoteException e) {
 					e.printStackTrace();
 				}
@@ -58,6 +60,7 @@ public class Client {
 					e.printStackTrace();
 				}
 			};
+			
 			
 			/**
 			 * Park TESTS...
@@ -82,72 +85,57 @@ public class Client {
 			vehicles.stream().forEach(c1);
 			
 			// TODO: check pending list before and after rent try /////////////////////////
-			vehicles = park.getVehicles(token);
-			vehicles.stream().forEach(c1);
+			int pending_p = park.getPendingPosition(token, "1");
+			System.out.println(pending_p);
+			IUser user = park.getRental(token, "1");
+			System.out.println("Current rental: " + user.getLogin());
 			System.out.println("jbidet rent 1 (pending): " + park.rentVehicle(token, "1"));
-			vehicles = park.getVehicles(token);
-			vehicles.stream().forEach(c1);
+			pending_p = park.getPendingPosition(token, "1");
+			System.out.println(pending_p);
+			user = park.getRental(token, "1");
+			System.out.println("Current rental: " + user.getLogin());
 			///////////////////////////////////////////////////////////////////////////////
 			
-			// TODO: check rental list before and after rent success ////////////////////////////
-			vehicles = park.getVehicles(token);
-			vehicles.stream().forEach(c1);
 			System.out.println("jbidet rent 2: " + park.rentVehicle(token, "2"));
+			
 			System.out.println("jbidet rent ac-338-xm: " + park.rentVehicle(token, "AC-338-XM"));
-			vehicles = park.getVehicles(token);
-			vehicles.stream().forEach(c1);
-			/////////////////////////////////////////////////////////////////////////////////////
-			
-			
-			
-			// TODO: check rental list before and after return //////////////////////////////////////
-			vehicles = park.getVehicles(token);
-			vehicles.stream().forEach(c1);
+			System.out.println("jbidet return ac-338-xm: " + park.rentVehicle(token2, "AC-338-XM"));
 			System.out.println("jbidet return ac-338-xm: " + park.returnVehicle(token, "AC-338-XM"));
-			vehicles = park.getVehicles(token);
-			vehicles.stream().forEach(c1);
-			/////////////////////////////////////////////////////////////////////////////////////////
 			
-			
-			vehicles = park.searchByModel("Vegan");
+			Map<String, Object> filters = new HashMap<String, Object>();
+			filters.put("model", "Vegan");
+			vehicles = park.searchBy(filters);
 			System.out.println("Vegan list (1 res): " + vehicles.stream().map(v -> {
 				try {
-					return "["+v.getMatricul()+"] " + v.getModel() + "("+v.getYear()+") " + "#"+v.getNbRented() + " @"+v.getPrice()+"$";
+					return "["+v.getMatricul()+"] " + v.getModel() + "("+v.getYear()+") " + " @"+v.getPrice()+"$";
 				} catch (RemoteException e) {
 					e.printStackTrace();
 					return "";
 				}
-			}).reduce((v1,v2) -> v1 + "\n" + v2).get());
+			}).reduce((v1,v2) -> v1 + "\n" + v2).get());		
 			
-			vehicles = park.searchByModel("logan");
-			System.out.println("logan list (0 res): " + vehicles.stream().map(v -> {
-				try {
-					return "["+v.getMatricul()+"] " + v.getModel() + "("+v.getYear()+") " + "#"+v.getNbRented() + " @"+v.getPrice()+"$";
-				} catch (RemoteException e) {
-					e.printStackTrace();
-					return "";
-				}
-			}).reduce((v1,v2) -> v1 + "\n" + v2).get());			
-			
-			vehicles = park.searchByYear(2009);
+			Map<String, Object> filters2 = new HashMap<String, Object>();
+			filters2.put("year", 2009);
+			vehicles = park.searchBy(filters2);
 			System.out.println("2009 list (4 res): " + vehicles.stream().map(v -> {
 				try {
-					return "["+v.getMatricul()+"] " + v.getModel() + "("+v.getYear()+") " + "#"+v.getNbRented() + " @"+v.getPrice()+"$";
+					return "["+v.getMatricul()+"] " + v.getModel() + "("+v.getYear()+") " + " @"+v.getPrice()+"$";
 				} catch (RemoteException e) {
 					e.printStackTrace();
 					return "";
 				}
 			}).reduce((v1,v2) -> v1 + "\n" + v2).get());
 			
-			vehicles = park.searchByYear(98);
-			System.out.println("98 list (0 res): " + vehicles.stream().map(v -> {
+			filters.putAll(filters2);
+			vehicles = park.searchBy(filters);
+			System.out.println("Vegan/2009 list (1 res): " + vehicles.stream().map(v -> {
 				try {
-					return "["+v.getMatricul()+"] " + v.getModel() + "("+v.getYear()+") " + "#"+v.getNbRented() + " @"+v.getPrice()+"$";
+					return "["+v.getMatricul()+"] " + v.getModel() + "("+v.getYear()+") " + " @"+v.getPrice()+"$";
 				} catch (RemoteException e) {
 					e.printStackTrace();
 					return "";
 				}
-			}).reduce((v1,v2) -> v1 + "\n" + v2).get());			
+			}).reduce((v1,v2) -> v1 + "\n" + v2).get());
 			
 		} catch(Exception e) {
 			e.printStackTrace();

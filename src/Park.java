@@ -1,9 +1,12 @@
+import java.lang.reflect.Method;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.SortedSet;
 import java.util.TreeSet;
@@ -64,7 +67,7 @@ public class Park extends UnicastRemoteObject implements IPark {
 			PendingUser p_user = vehicles.get(vehicle).first();
 			rentedVehicles.put(vehicle, p_user.getKey());
 			((Vehicle) vehicle).incRented();
-			vehicles.get(vehicle).remove(p_user);
+			vehicles.get(vehicle).remove(vehicles.get(vehicle).first());
 			return true;
 		}
 		return false;
@@ -103,24 +106,19 @@ public class Park extends UnicastRemoteObject implements IPark {
 	}
 
 	@Override
-	public List<IVehicle> searchByModel(String model) throws RemoteException {
+	public List<IVehicle> searchBy(Map<String, Object> filters) throws RemoteException {
+		final Map<String, Method> methods = Arrays.asList(IVehicle.class.getMethods()).stream().collect(Collectors.toMap(m -> m.getName().replace("get", "").toLowerCase(), m -> m));
 		return vehicles.keySet().stream().filter(v -> {
-			try {
-				return v.getModel().equals(model);
-			} catch (RemoteException e) {
-				return false;
-			}
-		}).collect(Collectors.toList());
-	}
-
-	@Override
-	public List<IVehicle> searchByYear(int year) throws RemoteException {
-		return vehicles.keySet().stream().filter(v -> {
-			try {
-				return v.getYear() == year;
-			} catch (RemoteException e) {
-				return false;
-			}
+			return filters.entrySet().stream().map(f -> {
+				try {
+					if(methods.containsKey(f.getKey())) {
+						return methods.get(f.getKey()).invoke(v, new Object[0]).equals(f.getValue());
+					}
+					return false;
+				} catch (Exception e) {
+					return false;
+				}
+			}).reduce((b1, b2) -> b1 & b2).get();
 		}).collect(Collectors.toList());
 	}
 
@@ -129,7 +127,7 @@ public class Park extends UnicastRemoteObject implements IPark {
 			return false;
 		}
 		int year = Calendar.getInstance().get(Calendar.YEAR);
-		return vehicle.getYear() == year && vehicle.getNbRented() > 0;
+		return vehicle.getYear() == year && ((Vehicle) vehicle).getNbRented() > 0;
 	}
 
 	@Override
@@ -191,12 +189,20 @@ public class Park extends UnicastRemoteObject implements IPark {
 	}
 
 	@Override
-	public ArrayList<PendingUser> pendingList(IVehicle v, String token) {
-		//ArrayList<PendingUser> pending = new ArrayList<PendingUser>(vehicles.get(v));
-		//return pending.indexOf(new PendingUser(Authentication.getUser(token)));
-		 
-		return new ArrayList<>(vehicles.get(v));
+	public int getPendingPosition(String token, String matricul) throws RemoteException {
+		if(!loggedIn(token)) {
+			throw new RemoteException("You are not logged in!");
+		}
+		List<PendingUser> pending = new ArrayList<PendingUser>(vehicles.get(new Vehicle(matricul)));
+		return pending.indexOf(new PendingUser(Authentication.getUser(token)));
 	}
 
+	@Override
+	public IUser getRental(String token, String matricul) throws RemoteException {
+		if(!loggedIn(token)) {
+			throw new RemoteException("You are not logged in!");
+		}
+		return rentedVehicles.get(new Vehicle(matricul));
+	}
 	
 }

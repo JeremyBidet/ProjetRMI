@@ -1,8 +1,11 @@
+import java.io.Serializable;
 import java.rmi.RemoteException;
 import java.util.Map;
 
-public class PendingUser implements Map.Entry<IUser, Long>, Comparable<PendingUser> {
+public class PendingUser implements Map.Entry<IUser, Long>, Comparable<PendingUser>, Serializable {
 
+	private static final long serialVersionUID = -2932940952359599569L;
+	
 	private IUser key;
 	private Long value;
 
@@ -43,7 +46,7 @@ public class PendingUser implements Map.Entry<IUser, Long>, Comparable<PendingUs
 		try {
 			int priority_order = this.key.getRole().priority - o.key.getRole().priority;
 			int time_order = this.value.compareTo(o.value);
-			return priority_order != 0 ? priority_order : time_order == 0 ? 1 : time_order;
+			return priority_order != 0 ? priority_order : time_order;
 		} catch (RemoteException e) {
 			e.printStackTrace();
 			return 0;
