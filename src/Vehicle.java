@@ -54,8 +54,7 @@ public class Vehicle extends UnicastRemoteObject implements IVehicle {
 		return rented;
 	}
 	
-	@Override
-	public void rent() throws RemoteException {
+	public void incRented() {
 		this.rented++;
 	}
 
