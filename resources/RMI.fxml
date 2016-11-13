@@ -52,7 +52,7 @@
                                           <TableColumn prefWidth="83.8623046875" text="Année" />
                                           <TableColumn prefWidth="102.02157592773438" text="Immatriculation" />
                                           <TableColumn prefWidth="116.65777587890625" text="Liste d'attente" />
-                                          <TableColumn minWidth="8.3421630859375" prefWidth="86.08941650390625" text="Louer" />
+                                          <TableColumn minWidth="8.3421630859375" prefWidth="86.08941650390625" text="Action" />
                                        </columns>
                                     </TableView>
                                  </content>
@@ -65,7 +65,7 @@
                                           <TableColumn prefWidth="83.8623046875" text="Année" />
                                           <TableColumn prefWidth="102.02157592773438" text="Immatriculation" />
                                           <TableColumn prefWidth="116.65777587890625" text="Liste d'attente" />
-                                          <TableColumn minWidth="8.3421630859375" prefWidth="86.08941650390625" text="Louer" />
+                                          <TableColumn minWidth="8.3421630859375" prefWidth="86.08941650390625" text="Action" />
                                        </columns>
                                     </TableView>
                                  </content>
@@ -84,7 +84,7 @@
                                                             <TableColumn prefWidth="83.8623046875" text="Année" />
                                                             <TableColumn prefWidth="102.02157592773438" text="Immatriculation" />
                                                             <TableColumn prefWidth="116.65777587890625" text="Liste d'attente" />
-                                                            <TableColumn minWidth="8.3421630859375" prefWidth="86.08941650390625" text="Louer" />
+                                                            <TableColumn minWidth="8.3421630859375" prefWidth="86.08941650390625" text="Action" />
                                                          </columns>
                                                       </TableView>
                                                    </children>
