@@ -190,4 +190,13 @@ public class Park extends UnicastRemoteObject implements IPark {
 		throw new RemoteException("This vehicle does not exist!");
 	}
 
+	@Override
+	public ArrayList<PendingUser> pendingList(IVehicle v, String token) {
+		//ArrayList<PendingUser> pending = new ArrayList<PendingUser>(vehicles.get(v));
+		//return pending.indexOf(new PendingUser(Authentication.getUser(token)));
+		 
+		return new ArrayList<>(vehicles.get(v));
+	}
+
+	
 }

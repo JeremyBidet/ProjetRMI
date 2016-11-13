@@ -4,6 +4,7 @@
 There are some path settings to set before starting the services.
 Make sure the two path correlate with your install path:
 ```java
+in Client.java: line 10: the "codebase" var match your source folder location
 in Client.java: line 12: the "java.security.policy" match your "all.policy" file path location
 in Authentication.java: line 10: the "usersDBPath" path match your "users.db" file path location
 ```

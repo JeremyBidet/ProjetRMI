@@ -23,5 +23,6 @@ public interface IPark extends Remote {
 	List<IComment> getComments(String token, String matricul) throws RemoteException;
 	
 	boolean addComment(String token, String matricul, String comment, int mark) throws RemoteException;
-
+	
+	List<PendingUser> pendingList(IVehicle v, String Token);
 }
