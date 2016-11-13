@@ -1,7 +1,7 @@
 import java.rmi.Remote;
 import java.rmi.RemoteException;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public interface IPark extends Remote {
 
@@ -13,9 +13,7 @@ public interface IPark extends Remote {
 
 	boolean rentVehicle(String token, String vehicle) throws RemoteException;
 
-	List<IVehicle> searchByModel(String model) throws RemoteException;
-
-	List<IVehicle> searchByYear(int year) throws RemoteException;
+	List<IVehicle> searchBy(Map<String, Object> filters) throws RemoteException;
 
 	boolean buy(String token, String matricul) throws RemoteException;
 	
@@ -25,5 +23,7 @@ public interface IPark extends Remote {
 	
 	boolean addComment(String token, String matricul, String comment, int mark) throws RemoteException;
 	
-	ArrayList<PendingUser> pendingList(IVehicle v, String Token);
+	int getPendingPosition(String token, String matricul) throws RemoteException;
+
+	IUser getRental(String token, String matricul) throws RemoteException;
 }

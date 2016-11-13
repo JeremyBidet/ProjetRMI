@@ -49,8 +49,7 @@ public class Vehicle extends UnicastRemoteObject implements IVehicle {
 		return model;
 	}
 
-	@Override
-	public int getNbRented() throws RemoteException {
+	public int getNbRented() {
 		return rented;
 	}
 	

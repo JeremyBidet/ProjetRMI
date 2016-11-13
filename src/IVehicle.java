@@ -12,6 +12,4 @@ public interface IVehicle extends Remote {
 
 	String getModel() throws RemoteException;
 
-	int getNbRented() throws RemoteException;
-
 }
