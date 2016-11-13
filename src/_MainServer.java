@@ -1,6 +1,6 @@
 import java.rmi.Naming;
 
-public class Server {
+public class _MainServer {
 
 	public static void main(String[] args) {
 		try {

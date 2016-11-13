@@ -7,7 +7,7 @@ import java.util.Map;
 import java.util.function.Consumer;
 
 @SuppressWarnings("deprecation")
-public class Client {
+public class _MainClient {
 
 	public static void main(String[] args) {
 		
