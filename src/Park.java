@@ -15,7 +15,7 @@ public class Park extends UnicastRemoteObject implements IPark {
 
 	private final HashMap<IVehicle, SortedSet<PendingUser>> vehicles = new HashMap<IVehicle, SortedSet<PendingUser>>();
 	private final HashMap<IVehicle, IUser> rentedVehicles = new HashMap<IVehicle, IUser>();
-	private final HashMap<IVehicle, List<Comment>> vehicleComments = new HashMap<IVehicle, List<Comment>>();
+	private final HashMap<IVehicle, List<IComment>> vehicleComments = new HashMap<IVehicle, List<IComment>>();
 
 	protected Park() throws RemoteException {
 		super();
@@ -39,7 +39,7 @@ public class Park extends UnicastRemoteObject implements IPark {
 		}
 		IVehicle v = new Vehicle(matricul, year, model, price);
 		vehicles.put(v, new TreeSet<PendingUser>());
-		vehicleComments.put(v, new ArrayList<Comment>());
+		vehicleComments.put(v, new ArrayList<IComment>());
 		return true;
 	}
 
@@ -103,25 +103,25 @@ public class Park extends UnicastRemoteObject implements IPark {
 	}
 
 	@Override
-	public IVehicle[] searchByModel(String model) throws RemoteException {
-		return (IVehicle[]) vehicles.keySet().stream().filter(v -> {
+	public List<IVehicle> searchByModel(String model) throws RemoteException {
+		return vehicles.keySet().stream().filter(v -> {
 			try {
 				return v.getModel().equals(model);
 			} catch (RemoteException e) {
 				return false;
 			}
-		}).collect(Collectors.toList()).toArray();
+		}).collect(Collectors.toList());
 	}
 
 	@Override
-	public IVehicle[] searchByYear(int year) throws RemoteException {
-		return (IVehicle[]) vehicles.keySet().stream().filter(v -> {
+	public List<IVehicle> searchByYear(int year) throws RemoteException {
+		return vehicles.keySet().stream().filter(v -> {
 			try {
 				return v.getYear() == year;
 			} catch (RemoteException e) {
 				return false;
 			}
-		}).collect(Collectors.toList()).toArray();
+		}).collect(Collectors.toList());
 	}
 
 	private boolean isBuyable(IVehicle vehicle) throws RemoteException {
@@ -153,18 +153,21 @@ public class Park extends UnicastRemoteObject implements IPark {
 	}
 
 	@Override
-	public IVehicle[] getVehicles(String token) throws RemoteException {
+	public List<IVehicle> getVehicles(String token) throws RemoteException {
 		if(!loggedIn(token)) {
 			throw new RemoteException("You are not logged in!");
 		}
-		return (IVehicle[]) vehicles.keySet().toArray();
+		return new ArrayList<>(vehicles.keySet());
 	}
 
 	@Override
-	public Comment[] getComments(String token, String matricul) throws RemoteException {
+	public List<IComment> getComments(String token, String matricul) throws RemoteException {
+		if(!loggedIn(token)) {
+			throw new RemoteException("You are not logged in!");
+		}
 		IVehicle v = new Vehicle(matricul);
 		if(vehicleComments.containsKey(v)) {
-			return (Comment[]) vehicleComments.get(v).toArray();
+			return vehicleComments.get(v);
 		}
 		throw new RemoteException("This vehicle does not exist!");
 	}

@@ -1,5 +1,6 @@
 import java.rmi.Remote;
 import java.rmi.RemoteException;
+import java.util.List;
 
 public interface IPark extends Remote {
 
@@ -11,15 +12,15 @@ public interface IPark extends Remote {
 
 	boolean rentVehicle(String token, String vehicle) throws RemoteException;
 
-	IVehicle[] searchByModel(String model) throws RemoteException;
+	List<IVehicle> searchByModel(String model) throws RemoteException;
 
-	IVehicle[] searchByYear(int year) throws RemoteException;
+	List<IVehicle> searchByYear(int year) throws RemoteException;
 
 	boolean buy(String token, String matricul) throws RemoteException;
 	
-	IVehicle[] getVehicles(String token) throws RemoteException;
+	List<IVehicle> getVehicles(String token) throws RemoteException;
 	
-	Comment[] getComments(String token, String matricul) throws RemoteException;
+	List<IComment> getComments(String token, String matricul) throws RemoteException;
 	
 	boolean addComment(String token, String matricul, String comment, int mark) throws RemoteException;
 

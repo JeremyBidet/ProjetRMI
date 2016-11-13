@@ -7,6 +7,8 @@ public class Authentication extends UnicastRemoteObject implements IAuthenticati
 
 	private static final long serialVersionUID = 7031083944660693289L;
 
+	private static final String usersDBPath = "/home/whyt/workspace/ProjetRMI/resources/users";
+	
 	private static final HashMap<String, IUser> loggedInUser = new HashMap<String, IUser>();
 	
 	public static IUser getUser(String token) {
@@ -28,7 +30,7 @@ public class Authentication extends UnicastRemoteObject implements IAuthenticati
 		})) {
 			throw new RemoteException("Already logged in!");
 		}
-		Utils.DB db = Utils.parseDB("resources/users");
+		Utils.DB db = Utils.parseDB(usersDBPath);
 		try {
 			if(db.findSiblingByHeaderValue("login", login, "password").equals(password)) {
 				String token = Utils.sha1(String.valueOf(System.currentTimeMillis()));
@@ -46,7 +48,7 @@ public class Authentication extends UnicastRemoteObject implements IAuthenticati
 
 	@Override
 	public String register(String login, String firstname, String lastname, int role, String password) throws RemoteException {
-		Utils.insertDB("resources/users", new Object[]{login, firstname, lastname, role, password} );
+		Utils.insertDB(usersDBPath, new Object[]{login, firstname, lastname, role, password} );
 		String token = Utils.sha1(String.valueOf(System.currentTimeMillis()));
 		loggedInUser.put(token, new User(login, firstname, lastname, Role.getById(role)));
 		return token;
@@ -54,14 +56,14 @@ public class Authentication extends UnicastRemoteObject implements IAuthenticati
 
 	@Override
 	public void forgotPassword(String login) throws RemoteException {
-		//TODO:
-		// email
+		//TODO: send new random password by email and update password in db
 	}
 
 	@Override
 	public boolean logoff(String token) throws RemoteException {
 		if(loggedInUser.containsKey(token)) {
 			loggedInUser.remove(token);
+			return true;
 		}
 		return false;
 	}
