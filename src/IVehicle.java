@@ -14,6 +14,4 @@ public interface IVehicle extends Remote {
 
 	int getNbRented() throws RemoteException;
 
-	void rent() throws RemoteException;
-
 }
