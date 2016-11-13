@@ -1,13 +1,23 @@
+import java.io.Serializable;
+import java.util.Arrays;
 
-import java.rmi.Remote;
-
-public interface Role extends Remote {
+public enum Role implements Serializable {
 	
-	String getRole();
+	Student(2, true, true),
+	Professor(1, true, true);
 	
-	boolean canAddVehicle();
+	public int priority;
+	public boolean addVehicle;
+	public boolean removeVehicle;
 	
-	boolean canRemoveVehicle();
+	private Role(int priority, boolean addVehicle, boolean removeVehicle) {
+		this.priority = priority;
+		this.addVehicle = addVehicle;
+		this.removeVehicle = removeVehicle;
+	}
 	
-	int getPriority();
+	public static Role getById(int id) {
+		return Arrays.asList(Role.values()).stream().filter(r -> r.ordinal() == id).findAny().get();
+	}
+	
 }
