@@ -1,6 +1,6 @@
 import java.rmi.Naming;
 
-public class Server {
+public class _MainServer {
 
 	public static void main(String[] args) {
 		try {
@@ -14,8 +14,10 @@ public class Server {
 			//jramsa@etud.u-pem.fr pass@word4 21dbd6c1ea7e975c8c24f2649daae9c0c533ecee
 			//mpbeal@igm.u-pem.fr pass@word5 2a20be1bf4c26018261693f245dac7a7231aeb24
 			
-			Naming.rebind("rmi://localhost/AuthenticationService", auth);
-			Naming.rebind("rmi://localhost/ParkService", park);
+			Naming.rebind("rmi://localhost:1099/AuthenticationService", auth);
+			Naming.rebind("rmi://localhost:1099/ParkService", park);
+			// tu parcours la liste de vehicules puis tu parcours la liste des utilisateurs de chaque vehicule 
+			//et tu fais appel à la methode onChangeValue() ) et tu le désinscris	
 		} catch(Exception e) {
 			e.printStackTrace();
 		}

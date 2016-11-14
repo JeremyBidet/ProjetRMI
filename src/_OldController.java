@@ -13,7 +13,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class Controller {
+@SuppressWarnings("deprecation")
+public class _OldController {
 
     @FXML
     private TableView<IVehicle> rentTableView;
@@ -169,8 +170,8 @@ public class Controller {
                 System.out.println("Key : " + randomLong + " Vehicle model : " + vehicle.getModel() + "Vehicle year : " + vehicle.getYear());
             }
             //service.addClient(new Client("JetestLeServer",3000));
-            List<Client> clients = service.getClients();
-            for (Client client : clients) {
+            List<_MainClient> clients = service.getClients();
+            for (_MainClient client : clients) {
                 System.out.println(client.toString());
             }
 

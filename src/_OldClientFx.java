@@ -1,7 +1,8 @@
 import java.rmi.Naming;
 import java.rmi.RMISecurityManager;
 
-public class ClientFx {
+@SuppressWarnings("deprecation")
+public class _OldClientFx {
 
 	try {
 		String codebase = "file:///home/whyt/workspace/ProjetRMI/src/";
