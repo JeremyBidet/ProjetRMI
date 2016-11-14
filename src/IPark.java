@@ -9,9 +9,9 @@ public interface IPark extends Remote {
 
 	boolean removeVehicle(String token, String matricul) throws RemoteException;
 
-	boolean returnVehicle(String token, String vehicle) throws RemoteException;
+	boolean returnVehicle(String token, String matricul) throws RemoteException;
 
-	boolean rentVehicle(String token, String vehicle) throws RemoteException;
+	boolean rentVehicle(String token, String matricul) throws RemoteException;
 
 	List<IVehicle> searchBy(Map<String, Object> filters) throws RemoteException;
 

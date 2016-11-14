@@ -6,9 +6,24 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
 
-@SuppressWarnings("deprecation")
-public class _MainClient {
+import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
 
+@SuppressWarnings("deprecation")
+public class _MainClient extends Application {
+
+	@Override
+	public void start(Stage primaryStage) throws Exception {
+		Parent root = FXMLLoader.load(getClass().getResource("login.fxml"));
+		primaryStage.setTitle("Rent-A-Car");
+		primaryStage.setScene(new Scene(root, 1050, 600));
+		primaryStage.setResizable(false);
+		primaryStage.show();
+	}
+	
 	public static void main(String[] args) {
 		
 		try {
@@ -17,8 +32,9 @@ public class _MainClient {
 			System.setProperty("java.security.policy", "/home/whyt/workspace/ProjetRMI/resources/all.policy");
 			System.setSecurityManager(new RMISecurityManager());
 			
-			IAuthentication auth = (IAuthentication) Naming.lookup("rmi://localhost/AuthenticationService");
-			IPark park = (IPark) Naming.lookup("rmi://localhost/ParkService");
+			IAuthentication auth = (IAuthentication) Naming.lookup("rmi://localhost:1099/AuthenticationService");
+			IPark park = (IPark) Naming.lookup("rmi://localhost:1099/ParkService");
+			//chargement notifs observer
 			
 			/**
 			 * Park & Auth INIT...
