@@ -68,6 +68,7 @@ public class Park extends UnicastRemoteObject implements IPark {
 			rentedVehicles.put(vehicle, p_user.getKey());
 			((Vehicle) vehicle).incRented();
 			vehicles.get(vehicle).remove(vehicles.get(vehicle).first());
+			//notif observer
 			return true;
 		}
 		return false;

@@ -17,8 +17,9 @@ public class _MainClient {
 			System.setProperty("java.security.policy", "/home/whyt/workspace/ProjetRMI/resources/all.policy");
 			System.setSecurityManager(new RMISecurityManager());
 			
-			IAuthentication auth = (IAuthentication) Naming.lookup("rmi://localhost/AuthenticationService");
-			IPark park = (IPark) Naming.lookup("rmi://localhost/ParkService");
+			IAuthentication auth = (IAuthentication) Naming.lookup("rmi://localhost:1099/AuthenticationService");
+			IPark park = (IPark) Naming.lookup("rmi://localhost:1099/ParkService");
+			//chargement notifs observer
 			
 			/**
 			 * Park & Auth INIT...

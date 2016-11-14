@@ -50,5 +50,6 @@ public class User extends UnicastRemoteObject implements IUser {
 	public boolean equals(String login) {
 		return this.login.equals(login);
 	}
+	//ajouter la méthode newValue( afficher dans la console un message ou il y a le nom de l'utilisateur qui est notifié ) ;
 
 }
