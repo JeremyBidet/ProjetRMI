@@ -2,8 +2,8 @@ SRC=src
 BIN=bin
 
 IMPL=Authentication Park User Comment Vehicle
-CLIENT=Client
-SERVER=Server
+CLIENT=_MainClient
+SERVER=_MainServer
 
 CC=javac
 STUB=rmic
