@@ -37,16 +37,16 @@
                            </textFill>
                         </Label>
                         <TextField fx:id="searchModel" layoutX="38.0" layoutY="53.0" prefHeight="27.0" prefWidth="181.0" promptText="Model" />
-                        <Button fx:id="searchButton" layoutX="84.0" layoutY="224.0" mnemonicParsing="false" text="Rechercher" />
                         <TextField fx:id="searchYear" layoutX="38.0" layoutY="105.0" prefHeight="27.0" prefWidth="181.0" promptText="Année" />
                         <TextField fx:id="searchMatricul" layoutX="38.0" layoutY="155.0" prefHeight="27.0" prefWidth="181.0" promptText="Immatriculation" />
+                        <Button fx:id="searchButton" layoutX="84.0" layoutY="224.0" mnemonicParsing="false" text="Rechercher" />
                      </children>
                   </AnchorPane>
                   <AnchorPane id="Content" minHeight="-1.0" minWidth="-1.0" prefHeight="570.0" prefWidth="614.0">
                      <children>
                         <ScrollPane prefHeight="-1.0" prefWidth="-1.0">
                            <content>
-                              <TabPane fx:id="tabPane" prefHeight="570.0" prefWidth="617.0" tabClosingPolicy="UNAVAILABLE">
+                              <TabPane fx:id="tabPane" prefHeight="570.0" prefWidth="726.0" tabClosingPolicy="UNAVAILABLE">
                                  <tabs>
                                     <Tab fx:id="tabVehicle" text="Vehicule">
                                        <content>
@@ -77,11 +77,11 @@
                                        <content>
                                           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                              <children>
-                                                <SplitPane dividerPositions="0.497029702970297" layoutX="-1.0" layoutY="1.0" orientation="VERTICAL" prefHeight="507.0" prefWidth="620.0">
+                                                <SplitPane dividerPositions="0.497029702970297" layoutX="-1.0" layoutY="1.0" orientation="VERTICAL" prefHeight="541.0" prefWidth="729.0">
                                                    <items>
                                                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="244.0" prefWidth="591.0">
                                                          <children>
-                                                            <TableView fx:id="managementView" layoutX="-1.0" layoutY="-1.0" prefHeight="252.0" prefWidth="669.0">
+                                                            <TableView fx:id="managementView" layoutX="-1.0" layoutY="-1.0" prefHeight="252.0" prefWidth="730.0">
                                                                <columns>
                                                                   <TableColumn fx:id="managementModel" prefWidth="136.43067932128906" text="Model" />
                                                                   <TableColumn fx:id="managementYear" prefWidth="83.8623046875" text="Année" />
@@ -91,13 +91,13 @@
                                                             </TableView>
                                                          </children>
                                                       </AnchorPane>
-                                                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="253.0" prefWidth="590.0">
+                                                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="258.0" prefWidth="730.0">
                                                          <children>
-                                                            <TextField fx:id="addModel" layoutX="77.0" layoutY="31.0" promptText="Model" />
-                                                            <TextField fx:id="addYear" layoutX="77.0" layoutY="69.0" promptText="Année" />
-                                                            <Button fx:id="addButton" layoutX="252.0" layoutY="162.0" mnemonicParsing="false" text="Ajouter" />
-                                                            <TextField fx:id="addMatricul" layoutX="307.0" layoutY="32.0" promptText="Immatriculation" />
-                                                            <TextField fx:id="addPrice" layoutX="306.0" layoutY="69.0" promptText="Prix" />
+                                                            <TextField fx:id="addModel" layoutX="167.0" layoutY="31.0" promptText="Model" />
+                                                            <TextField fx:id="addYear" layoutX="167.0" layoutY="69.0" promptText="Année" />
+                                                            <TextField fx:id="addMatricul" layoutX="397.0" layoutY="32.0" promptText="Immatriculation" />
+                                                            <TextField fx:id="addPrice" layoutX="396.0" layoutY="69.0" promptText="Prix" />
+                                                            <Button fx:id="addButton" layoutX="342.0" layoutY="162.0" mnemonicParsing="false" text="Ajouter" />
                                                          </children>
                                                       </AnchorPane>
                                                    </items>
