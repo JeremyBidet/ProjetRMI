@@ -15,7 +15,7 @@
 <?import javafx.scene.paint.Color?>
 <?import javafx.scene.text.Font?>
 
-<HBox fx:controller="ParkController" id="HBox" alignment="CENTER_LEFT" spacing="5.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1">
+<HBox id="HBox" alignment="CENTER_LEFT" spacing="5.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ParkController">
    <padding>
       <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />
    </padding>
@@ -32,10 +32,10 @@
                         <Color blue="0.624" green="0.624" red="0.624" fx:id="x2" />
                      </textFill>
                   </Label>
-                  <TextField layoutX="38.0" layoutY="53.0" prefHeight="27.0" prefWidth="181.0" promptText="Model" />
-                  <Button layoutX="84.0" layoutY="224.0" mnemonicParsing="false" text="Rechercher" />
-                  <TextField layoutX="38.0" layoutY="105.0" prefHeight="27.0" prefWidth="181.0" promptText="Année" />
-                  <TextField layoutX="38.0" layoutY="155.0" prefHeight="27.0" prefWidth="181.0" promptText="Immatriculation" />
+                  <TextField fx:id="searchModel" layoutX="38.0" layoutY="53.0" prefHeight="27.0" prefWidth="181.0" promptText="Model" />
+                  <Button fx:id="searchButton" layoutX="84.0" layoutY="224.0" mnemonicParsing="false" text="Rechercher" />
+                  <TextField fx:id="searchYear" layoutX="38.0" layoutY="105.0" prefHeight="27.0" prefWidth="181.0" promptText="Année" />
+                  <TextField fx:id="searchMatricul" layoutX="38.0" layoutY="155.0" prefHeight="27.0" prefWidth="181.0" promptText="Immatriculation" />
                </children>
             </AnchorPane>
             <AnchorPane id="Content" minHeight="-1.0" minWidth="-1.0" prefHeight="570.0" prefWidth="614.0">
@@ -44,33 +44,32 @@
                      <content>
                         <TabPane prefHeight="570.0" prefWidth="617.0" tabClosingPolicy="UNAVAILABLE">
                            <tabs>
-                              <Tab text="Voiture">
+                              <Tab fx:id="tabVehicle" text="Voiture">
                                  <content>
                                     <TableView prefHeight="537.0" prefWidth="510.0">
                                        <columns>
-                                          <TableColumn prefWidth="136.43067932128906" text="Model" />
-                                          <TableColumn prefWidth="83.8623046875" text="Année" />
-                                          <TableColumn prefWidth="102.02157592773438" text="Immatriculation" />
-                                          <TableColumn prefWidth="116.65777587890625" text="Liste d'attente" />
-                                          <TableColumn minWidth="8.3421630859375" prefWidth="86.08941650390625" text="Action" />
+                                          <TableColumn fx:id="vehicleModel" prefWidth="136.43067932128906" text="Model" />
+                                          <TableColumn fx:id="vehicleYear" prefWidth="83.8623046875" text="Année" />
+                                          <TableColumn fx:id="vehicleMatricul" prefWidth="102.02157592773438" text="Immatriculation" />
+                                          <TableColumn fx:id="vehiclePending" prefWidth="116.65777587890625" text="Liste d'attente" />
+                                          <TableColumn fx:id="vehicleAction" minWidth="8.3421630859375" prefWidth="86.08941650390625" text="Action" />
                                        </columns>
                                     </TableView>
                                  </content>
                               </Tab>
-                              <Tab text="Loué">
+                              <Tab fx:id="tabRent" text="Loué">
                                  <content>
                                     <TableView prefHeight="537.0" prefWidth="646.0">
                                        <columns>
-                                          <TableColumn prefWidth="136.43067932128906" text="Model" />
-                                          <TableColumn prefWidth="83.8623046875" text="Année" />
-                                          <TableColumn prefWidth="102.02157592773438" text="Immatriculation" />
-                                          <TableColumn prefWidth="116.65777587890625" text="Liste d'attente" />
-                                          <TableColumn minWidth="8.3421630859375" prefWidth="86.08941650390625" text="Action" />
+                                          <TableColumn fx:id="rentModel" prefWidth="136.43067932128906" text="Model" />
+                                          <TableColumn fx:id="rentYear" prefWidth="83.8623046875" text="Année" />
+                                          <TableColumn fx:id="rentMatricul" prefWidth="102.02157592773438" text="Immatriculation" />
+                                          <TableColumn fx:id="rentAction" minWidth="8.3421630859375" prefWidth="86.08941650390625" text="Action" />
                                        </columns>
                                     </TableView>
                                  </content>
                               </Tab>
-                              <Tab text="Gestion">
+                              <Tab fx:id="tabManagement" text="Gestion">
                                  <content>
                                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                        <children>
@@ -80,22 +79,21 @@
                                                    <children>
                                                       <TableView layoutX="-1.0" layoutY="-1.0" prefHeight="252.0" prefWidth="669.0">
                                                          <columns>
-                                                            <TableColumn prefWidth="136.43067932128906" text="Model" />
-                                                            <TableColumn prefWidth="83.8623046875" text="Année" />
-                                                            <TableColumn prefWidth="102.02157592773438" text="Immatriculation" />
-                                                            <TableColumn prefWidth="116.65777587890625" text="Liste d'attente" />
-                                                            <TableColumn minWidth="8.3421630859375" prefWidth="86.08941650390625" text="Action" />
+                                                            <TableColumn fx:id="managementModel" prefWidth="136.43067932128906" text="Model" />
+                                                            <TableColumn fx:id="managementYear" prefWidth="83.8623046875" text="Année" />
+                                                            <TableColumn fx:id="managementMatricul" prefWidth="102.02157592773438" text="Immatriculation" />
+                                                            <TableColumn fx:id="managementAction" minWidth="8.3421630859375" prefWidth="86.08941650390625" text="Action" />
                                                          </columns>
                                                       </TableView>
                                                    </children>
                                                 </AnchorPane>
                                                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="253.0" prefWidth="590.0">
                                                    <children>
-                                                      <TextField layoutX="77.0" layoutY="31.0" promptText="Model" />
-                                                      <TextField layoutX="77.0" layoutY="69.0" promptText="Année" />
-                                                      <Button layoutX="252.0" layoutY="162.0" mnemonicParsing="false" text="Ajouter" />
-                                                      <TextField layoutX="307.0" layoutY="32.0" promptText="Immatriculation" />
-                                                      <TextField layoutX="306.0" layoutY="69.0" promptText="Prix" />
+                                                      <TextField fx:id="addModel" layoutX="77.0" layoutY="31.0" promptText="Model" />
+                                                      <TextField fx:id="addYear" layoutX="77.0" layoutY="69.0" promptText="Année" />
+                                                      <Button fx:id="addButton" layoutX="252.0" layoutY="162.0" mnemonicParsing="false" text="Ajouter" />
+                                                      <TextField fx:id="addmatricul" layoutX="307.0" layoutY="32.0" promptText="Immatriculation" />
+                                                      <TextField fx:id="addPrice" layoutX="306.0" layoutY="69.0" promptText="Prix" />
                                                    </children>
                                                 </AnchorPane>
                                              </items>
