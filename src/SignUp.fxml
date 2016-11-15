@@ -9,25 +9,25 @@
 <?import javafx.scene.layout.TilePane?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox fx:controller="SignUpController" prefHeight="172.0" prefWidth="314.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1">
+<VBox prefHeight="172.0" prefWidth="314.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="SignUpController">
   <children>
       <TilePane prefHeight="394.0" prefWidth="429.0" VBox.vgrow="ALWAYS">
          <children>
           <AnchorPane accessibleText="login" maxHeight="-1.0" maxWidth="-1.0" prefHeight="316.0" prefWidth="316.0">
             <children>
-                  <TextField fx:id="registerEmail" layoutX="123.0" layoutY="35.0" />
-                  <TextField fx:id="registerLastname" layoutX="123.0" layoutY="115.0" />
                   <Label layoutX="34.0" layoutY="40.0" text="Email :" />
+                  <TextField fx:id="registerEmail" layoutX="123.0" layoutY="35.0" />
                   <Label layoutX="20.0" layoutY="80.0" text="Firstname :" />
-                  <Button fx:id="buttonSignUp" layoutX="110.0" layoutY="278.0" mnemonicParsing="false" text="Sign up" />
-                  <PasswordField fx:id="registerPassword2" layoutX="123.0" layoutY="235.0" />
-                  <ChoiceBox fx:id="registerProfile" layoutX="123.0" layoutY="155.0" prefHeight="27.0" prefWidth="167.0" />
-                  <Label layoutX="21.0" layoutY="160.0" prefHeight="17.0" prefWidth="68.0" text="Profile :" />
-                  <Label layoutX="21.0" layoutY="240.0" text="Confirm :" />
-                  <Label layoutX="21.0" layoutY="120.0" text="Lastname :" />
                   <TextField fx:id="registerFirstname" layoutX="123.0" layoutY="75.0" />
-                  <PasswordField fx:id="registerPassword" layoutX="123.0" layoutY="195.0" />
+                  <Label layoutX="21.0" layoutY="120.0" text="Lastname :" />
+                  <TextField fx:id="registerLastname" layoutX="123.0" layoutY="115.0" />
+                  <Label layoutX="21.0" layoutY="160.0" prefHeight="17.0" prefWidth="68.0" text="Profile :" />
+                  <ChoiceBox fx:id="registerProfile" layoutX="123.0" layoutY="155.0" prefHeight="27.0" prefWidth="167.0" />
                   <Label layoutX="21.0" layoutY="200.0" text="Password :" />
+                  <PasswordField fx:id="registerPassword" layoutX="123.0" layoutY="195.0" />
+                  <Label layoutX="21.0" layoutY="240.0" text="Confirm :" />
+                  <PasswordField fx:id="registerPassword2" layoutX="123.0" layoutY="235.0" />
+                  <Button fx:id="buttonSignUp" layoutX="110.0" layoutY="278.0" mnemonicParsing="false" text="Sign up" />
             </children>
           </AnchorPane>
          </children>
