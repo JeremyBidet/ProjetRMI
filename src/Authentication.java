@@ -7,7 +7,7 @@ public class Authentication extends UnicastRemoteObject implements IAuthenticati
 
 	private static final long serialVersionUID = 7031083944660693289L;
 
-	private static final String usersDBPath = "/home/whyt/workspace/ProjetRMI/resources/users";
+	private static final String usersDBPath = "users";
 	
 	private static final HashMap<String, IUser> loggedInUser = new HashMap<String, IUser>();
 	

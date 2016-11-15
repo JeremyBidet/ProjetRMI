@@ -162,6 +162,9 @@ public class MainAppController {
 				// XXX: e contains "This login already exists!" exceptions
 				// XXX: show pop-up with e.getMessage() content
 				javax.swing.JOptionPane.showMessageDialog(null, e.getMessage());
+			} catch (RemoteException e) {
+				// XXX: show pop-up "Connection issue...\nPlease restart application."
+				javax.swing.JOptionPane.showMessageDialog(null,"Connection issue...\nPlease restart application.");
 			}
 		});
 		
@@ -173,7 +176,7 @@ public class MainAppController {
         this.vehiclePending.setCellValueFactory(value -> {
         	try {
 				return new SimpleIntegerProperty(_MainClient.park.getPendingPosition(token, value.getValue().getMatricul())).asObject();
-			} catch (RemoteException | AuthenticationException e) {
+			} catch (RemoteException e) {
 				return new SimpleIntegerProperty(-1).asObject();
 			}
         });
@@ -192,15 +195,15 @@ public class MainAppController {
                             IVehicle vehicle = getTableView().getItems().get(getIndex());
                             try {
 								_MainClient.park.rentVehicle(token, vehicle.getMatricul());
-							} catch (RemoteException e) {
-								// XXX: show pop-up "Connection issue...\nPlease restart application."
-								javax.swing.JOptionPane.showMessageDialog(null,"Connection issue...\nPlease restart application."); 
 							} catch (ParkException e) {
 								javax.swing.JOptionPane.showMessageDialog(null, e.getMessage()); 
 							} catch (AuthenticationException e) {
 								// XXX: e can contains either "Invalid login/password" or "Already logged in" exceptions
 								// XXX: show pop-up with e.getMessage() content
 								javax.swing.JOptionPane.showMessageDialog(null, e.getMessage()); 
+							} catch (RemoteException e) {
+								// XXX: show pop-up "Connection issue...\nPlease restart application."
+								javax.swing.JOptionPane.showMessageDialog(null,"Connection issue...\nPlease restart application."); 
 							}
                         });
                         setGraphic(btn);
@@ -231,15 +234,15 @@ public class MainAppController {
                             IVehicle vehicle = getTableView().getItems().get(getIndex());
                             try {
 								_MainClient.park.returnVehicle(token, vehicle.getMatricul());
-							} catch (RemoteException e) {
-								// XXX: show pop-up "Connection issue...\nPlease restart application."
-								javax.swing.JOptionPane.showMessageDialog(null,"Connection issue...\nPlease restart application."); 
 							} catch (ParkException e) {
 								javax.swing.JOptionPane.showMessageDialog(null, e.getMessage()); 
 							} catch (AuthenticationException e) {
 								// XXX: e can contains either "Invalid login/password" or "Already logged in" exceptions
 								// XXX: show pop-up with e.getMessage() content
 								javax.swing.JOptionPane.showMessageDialog(null, e.getMessage()); 
+							} catch (RemoteException e) {
+								// XXX: show pop-up "Connection issue...\nPlease restart application."
+								javax.swing.JOptionPane.showMessageDialog(null,"Connection issue...\nPlease restart application."); 
 							}
                         });
                         setGraphic(btn);
@@ -270,15 +273,15 @@ public class MainAppController {
                             IVehicle vehicle = getTableView().getItems().get(getIndex());
                             try {
 								_MainClient.park.removeVehicle(token, vehicle.getMatricul());
-							} catch (RemoteException e) {
-								// XXX: show pop-up "Connection issue...\nPlease restart application."
-								javax.swing.JOptionPane.showMessageDialog(null,"Connection issue...\nPlease restart application."); 
 							} catch (ParkException e) {
 								javax.swing.JOptionPane.showMessageDialog(null, e.getMessage()); 
 							} catch (AuthenticationException e) {
 								// XXX: e can contains either "Invalid login/password" or "Already logged in" exceptions
 								// XXX: show pop-up with e.getMessage() content
 								javax.swing.JOptionPane.showMessageDialog(null, e.getMessage()); 
+							} catch (RemoteException e) {
+								// XXX: show pop-up "Connection issue...\nPlease restart application."
+								javax.swing.JOptionPane.showMessageDialog(null,"Connection issue...\nPlease restart application."); 
 							}
                         });
                         setGraphic(btn);

@@ -1,6 +1,8 @@
 import java.io.IOException;
 import java.rmi.RemoteException;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
@@ -26,7 +28,7 @@ public class SignUpController {
 	private PasswordField registerPassword2;
 	
 	@FXML
-	private ChoiceBox<String> registerProfile;
+	private ChoiceBox<Role> registerProfile;
 	
 	@FXML
 	private Button buttonSignUp;
@@ -66,25 +68,27 @@ public class SignUpController {
 		
 		this.registerProfile.setAccessibleHelp("Please chose a profile!");
 		this.registerProfile.setTooltip(new Tooltip());
+		ObservableList<Role> roles = FXCollections.observableArrayList(Role.values());
+		this.registerProfile.setItems(roles);
 		
 		this.buttonSignUp.setOnAction(value -> {
 			try {
 				// TODO: add controls for field: they need to be filled
-				String token = _MainClient.auth.register(registerEmail.getText(), registerLastname.getText(), registerFirstname.getText(), Role.valueOf(registerProfile.getValue()).ordinal(), Utils.sha1(registerPassword.getText()));
+				String token = _MainClient.auth.register(registerEmail.getText(), registerLastname.getText(), registerFirstname.getText(), registerProfile.getValue().ordinal(), Utils.sha1(registerPassword.getText()));
 				MainAppStage mastage = new MainAppStage(token);
 				mastage.setUserData(token);
 				mastage.show();
 				this.buttonSignUp.getScene().getWindow().hide();
+			} catch (AuthenticationException e) {
+				// XXX: e contains "This login already exists!" exceptions
+				// XXX: show pop-up with e.getMessage() content
+				javax.swing.JOptionPane.showMessageDialog(null,e.getMessage());
 			} catch (RemoteException e) {
 				// XXX: show pop-up "Connection issue...\nPlease restart application."
 				javax.swing.JOptionPane.showMessageDialog(null,"Connection issue...\nPlease restart application.");
 			} catch (IOException e) {
 				// XXX: show pop-up "Application issue...\nPlease restart application."
 				javax.swing.JOptionPane.showMessageDialog(null,"Application issue...\nPlease restart application."); 
-			} catch (AuthenticationException e) {
-				// XXX: e contains "This login already exists!" exceptions
-				// XXX: show pop-up with e.getMessage() content
-				javax.swing.JOptionPane.showMessageDialog(null,e.getMessage());
 			}
 		});
 	}

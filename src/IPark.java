@@ -5,28 +5,28 @@ import java.util.Map;
 
 public interface IPark extends Remote {
 
-	List<IVehicle> getVehicles(String token) throws AuthenticationException;
+	List<IVehicle> getVehicles(String token) throws AuthenticationException, RemoteException;
 	
-	List<IVehicle> getRentedVehicles(String token) throws AuthenticationException;
+	List<IVehicle> getRentedVehicles(String token) throws AuthenticationException, RemoteException;
 
 	boolean addVehicle(String token, String matricul, int year, String model, double price) throws RemoteException, AuthenticationException;
 
-	boolean removeVehicle(String token, String matricul) throws RemoteException, AuthenticationException, ParkException;
+	boolean removeVehicle(String token, String matricul) throws AuthenticationException, ParkException, RemoteException;
 
-	boolean returnVehicle(String token, String matricul) throws RemoteException, AuthenticationException, ParkException;
+	boolean returnVehicle(String token, String matricul) throws AuthenticationException, ParkException, RemoteException;
 
-	boolean rentVehicle(String token, String matricul) throws RemoteException, AuthenticationException, ParkException;
+	boolean rentVehicle(String token, String matricul) throws AuthenticationException, ParkException, RemoteException;
 
-	int getPendingPosition(String token, String matricul) throws RemoteException, AuthenticationException;
+	int getPendingPosition(String token, String matricul) throws AuthenticationException, RemoteException;
 
-	IUser getRental(String token, String matricul) throws RemoteException, AuthenticationException;
+	IUser getRental(String token, String matricul) throws AuthenticationException, RemoteException;
 	
-	List<IVehicle> searchBy(String token, String list, Map<String, Object> filters) throws AuthenticationException;
+	List<IVehicle> searchBy(String token, String list, Map<String, Object> filters) throws AuthenticationException, RemoteException;
 
-	boolean buy(String token, String matricul) throws RemoteException, AuthenticationException, ParkException;
+	boolean buy(String token, String matricul) throws AuthenticationException, ParkException, RemoteException;
 	
-	List<IComment> getComments(String token, String matricul) throws RemoteException, AuthenticationException, ParkException;
+	List<IComment> getComments(String token, String matricul) throws AuthenticationException, ParkException, RemoteException;
 	
-	boolean addComment(String token, String matricul, String comment, int mark) throws RemoteException, AuthenticationException;
+	boolean addComment(String token, String matricul, String comment, int mark) throws AuthenticationException, RemoteException;
 	
 }

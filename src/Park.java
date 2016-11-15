@@ -33,7 +33,7 @@ public class Park extends UnicastRemoteObject implements IPark {
 	}
 
 	@Override
-	public List<IVehicle> getVehicles(String token) throws AuthenticationException {
+	public List<IVehicle> getVehicles(String token) throws AuthenticationException, RemoteException {
 		if(!loggedIn(token)) {
 			throw new AuthenticationException("You are not logged in!");
 		}
@@ -41,7 +41,7 @@ public class Park extends UnicastRemoteObject implements IPark {
 	}
 	
 	@Override
-	public List<IVehicle> getRentedVehicles(String token) throws AuthenticationException {
+	public List<IVehicle> getRentedVehicles(String token) throws AuthenticationException, RemoteException {
 		if(!loggedIn(token)) {
 			throw new AuthenticationException("You are not logged in!");
 		}
@@ -80,7 +80,7 @@ public class Park extends UnicastRemoteObject implements IPark {
 		throw new ParkException("This vehicle does not exist!");
 	}
 
-	private synchronized boolean rentVehicle(IVehicle vehicle) throws ParkException {
+	private synchronized boolean rentVehicle(IVehicle vehicle) throws ParkException, RemoteException {
 		if(vehicles.containsKey(vehicle) && !rentedVehicles.containsKey(vehicle)) {
 			if(vehicles.get(vehicle).isEmpty()) {
 				return false;
@@ -145,7 +145,7 @@ public class Park extends UnicastRemoteObject implements IPark {
 	}
 
 	@Override
-	public List<IVehicle> searchBy(String token, String list, Map<String, Object> filters) throws AuthenticationException {
+	public List<IVehicle> searchBy(String token, String list, Map<String, Object> filters) throws AuthenticationException, RemoteException {
 		if(!loggedIn(token)) {
 			throw new AuthenticationException("You are not logged in!");
 		}
