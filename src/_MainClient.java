@@ -15,10 +15,13 @@ import javafx.stage.Stage;
 @SuppressWarnings("deprecation")
 public class _MainClient extends Application {
 
+	public static IAuthentication auth;
+	public static IPark park;
+	
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-		Parent root = FXMLLoader.load(getClass().getResource("login.fxml"));
-		primaryStage.setTitle("Login");
+		Parent root = FXMLLoader.load(getClass().getResource("SignIn.fxml"));
+		primaryStage.setTitle("Sign In");
 		primaryStage.setScene(new Scene(root));
 		primaryStage.setResizable(false);
 		primaryStage.centerOnScreen();
@@ -33,8 +36,8 @@ public class _MainClient extends Application {
 			System.setProperty("java.security.policy", "/home/whyt/workspace/ProjetRMI/resources/all.policy");
 			System.setSecurityManager(new RMISecurityManager());
 			
-			IAuthentication auth = (IAuthentication) Naming.lookup("rmi://localhost:1099/AuthenticationService");
-			IPark park = (IPark) Naming.lookup("rmi://localhost:1099/ParkService");
+			_MainClient.auth = (IAuthentication) Naming.lookup("rmi://localhost:1099/AuthenticationService");
+			_MainClient.park = (IPark) Naming.lookup("rmi://localhost:1099/ParkService");
 			//chargement notifs observer
 			
 			Application.launch(_MainClient.class, args);

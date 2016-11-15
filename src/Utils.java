@@ -117,7 +117,7 @@ public class Utils {
 		}
 	}
 	
-	public static void insertDB(String db, Object[] values) throws RemoteException {
+	public static boolean insertDB(String db, Object[] values) throws RemoteException {
 		try {
 			BufferedReader br = new BufferedReader(new FileReader(new File(db + ".db")));
 			StringBuilder sb = new StringBuilder();
@@ -125,7 +125,7 @@ public class Utils {
 			while((line = br.readLine()) != null) {
 				if(Arrays.asList(line.replace("\"", "").split(",")).contains(values[0])) {
 					br.close();
-					throw new RemoteException("This login already exists!");
+					return false;
 				}
 				sb.append(line).append('\n');
 			}
@@ -138,7 +138,9 @@ public class Utils {
 			bw.write(sb.toString());
 			br.close();
 			bw.close();
+			return true;
 		} catch (IOException e) {
+			return false;
 		}
 	}
 	
