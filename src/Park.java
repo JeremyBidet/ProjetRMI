@@ -53,13 +53,13 @@ public class Park extends UnicastRemoteObject implements IPark {
 	}
 
 	@Override
-	public boolean addVehicle(String token, String matricul, int year, String model, double price) throws RemoteException, AuthenticationException {
+	public boolean addVehicle(String token, String matricul, int year, String model, double price) throws RemoteException, AuthenticationException, ParkException {
 		if(!loggedIn(token)) {
 			throw new AuthenticationException("You are not logged in!");
 		}
 		IVehicle key = new Vehicle(matricul);
-		if (vehicles.containsKey(key)) {
-			return false;
+		if(vehicles.containsKey(key)) {
+			throw new ParkException("This vehicle already exists!");
 		}
 		IVehicle v = new Vehicle(matricul, year, model, price);
 		vehicles.put(v, new TreeSet<PendingUser>());
@@ -76,23 +76,29 @@ public class Park extends UnicastRemoteObject implements IPark {
 		if(vehicles.containsKey(key)) {
 			vehicles.remove(key);
 			return true;
+		} else {
+			throw new ParkException("This vehicle does not exist!");
 		}
-		throw new ParkException("This vehicle does not exist!");
 	}
 
 	private synchronized boolean rentVehicle(IVehicle vehicle) throws ParkException, RemoteException {
-		if(vehicles.containsKey(vehicle) && !rentedVehicles.containsKey(vehicle)) {
-			if(vehicles.get(vehicle).isEmpty()) {
-				return false;
+		if(vehicles.containsKey(vehicle)) {
+			if(!rentedVehicles.containsKey(vehicle)) {
+				if(vehicles.get(vehicle).isEmpty()) {
+					return false;
+				}
+				PendingUser p_user = vehicles.get(vehicle).first();
+				rentedVehicles.put(vehicle, p_user.getKey());
+				((Vehicle) vehicle).incRented();
+				vehicles.get(vehicle).remove(vehicles.get(vehicle).first());
+				//notif observer
+				return true;
+			} else {
+				throw new ParkException("This vehicle is already rented!");
 			}
-			PendingUser p_user = vehicles.get(vehicle).first();
-			rentedVehicles.put(vehicle, p_user.getKey());
-			((Vehicle) vehicle).incRented();
-			vehicles.get(vehicle).remove(vehicles.get(vehicle).first());
-			//notif observer
-			return true;
+		} else {
+			throw new ParkException("This vehicle does not exist!");
 		}
-		throw new ParkException("This vehicle does not exist!");
 	}
 
 	@Override
@@ -103,10 +109,11 @@ public class Park extends UnicastRemoteObject implements IPark {
 		IVehicle key = new Vehicle(matricul);
 		if(rentedVehicles.containsKey(key)) {
 			rentedVehicles.remove(key);
-			rentVehicle(key);
+			rentVehicle(vehicles.keySet().stream().filter(v -> v.equals(key)).findAny().get());
 			return true;
+		} else {
+			throw new ParkException("This vehicle does not exist!");
 		}
-		throw new ParkException("This vehicle does not exist!");
 	}
 
 	@Override
@@ -118,13 +125,17 @@ public class Park extends UnicastRemoteObject implements IPark {
 		if(vehicles.containsKey(key)) {
 			try {
 				IUser user = Authentication.getUser(token);
+				if(vehicles.get(key).stream().filter(u -> u.getKey().equals(user)).count() > 0) {
+					throw new ParkException("You cannot rent twice a vehicle!");
+				}
 				vehicles.get(key).add(new PendingUser(user));
-				return rentVehicle(key);
+				return rentVehicle(vehicles.keySet().stream().filter(v -> v.equals(key)).findAny().get());
 			} catch(NoSuchElementException e) {
 				throw new AuthenticationException("You are not logged in!");
 			}
+		} else {
+			throw new ParkException("This vehicle does not exist!");
 		}
-		throw new ParkException("This vehicle does not exist!");
 	}
 
 	@Override
@@ -132,7 +143,7 @@ public class Park extends UnicastRemoteObject implements IPark {
 		if(!loggedIn(token)) {
 			throw new AuthenticationException("You are not logged in!");
 		}
-		List<PendingUser> pending = new ArrayList<PendingUser>(vehicles.get(new Vehicle(matricul)));
+		List<PendingUser> pending = vehicles.get(new Vehicle(matricul)).stream().collect(Collectors.toList());
 		return pending.indexOf(new PendingUser(Authentication.getUser(token)));
 	}
 
@@ -150,7 +161,7 @@ public class Park extends UnicastRemoteObject implements IPark {
 			throw new AuthenticationException("You are not logged in!");
 		}
 		final Map<String, Method> methods = Arrays.asList(IVehicle.class.getMethods()).stream().collect(Collectors.toMap(m -> m.getName().replace("get", "").toLowerCase(), m -> m));
-		Set<IVehicle> filteredList = list.equals("rentView") ? rentedVehicles.keySet() : vehicles.keySet();
+		Set<IVehicle> filteredList = list.equals("tabRent") ? rentedVehicles.keySet() : vehicles.keySet();
 		return filteredList.stream().filter(v -> {
 			try {
 				return filters.entrySet().stream().map(f -> {

@@ -1,6 +1,4 @@
-import java.rmi.RemoteException;
-
-public class ParkException extends RemoteException {
+public class ParkException extends Exception {
 	
 	private static final long serialVersionUID = 2268510614639550246L;
 

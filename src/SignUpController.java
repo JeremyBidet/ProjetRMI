@@ -80,14 +80,10 @@ public class SignUpController {
 				mastage.show();
 				this.buttonSignUp.getScene().getWindow().hide();
 			} catch (AuthenticationException e) {
-				// XXX: e contains "This login already exists!" exceptions
-				// XXX: show pop-up with e.getMessage() content
 				javax.swing.JOptionPane.showMessageDialog(null,e.getMessage());
 			} catch (RemoteException e) {
-				// XXX: show pop-up "Connection issue...\nPlease restart application."
 				javax.swing.JOptionPane.showMessageDialog(null,"Connection issue...\nPlease restart application.");
 			} catch (IOException e) {
-				// XXX: show pop-up "Application issue...\nPlease restart application."
 				javax.swing.JOptionPane.showMessageDialog(null,"Application issue...\nPlease restart application."); 
 			}
 		});

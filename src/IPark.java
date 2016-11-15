@@ -9,7 +9,7 @@ public interface IPark extends Remote {
 	
 	List<IVehicle> getRentedVehicles(String token) throws AuthenticationException, RemoteException;
 
-	boolean addVehicle(String token, String matricul, int year, String model, double price) throws RemoteException, AuthenticationException;
+	boolean addVehicle(String token, String matricul, int year, String model, double price) throws RemoteException, AuthenticationException, ParkException;
 
 	boolean removeVehicle(String token, String matricul) throws AuthenticationException, ParkException, RemoteException;
 

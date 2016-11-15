@@ -28,6 +28,10 @@ public class MainAppController {
 	private final ObservableList<IVehicle> vehiclesData = FXCollections.observableArrayList();
 	private final ObservableList<IVehicle> rentedVehiclesData = FXCollections.observableArrayList();
 
+	public void setToken(String token) {
+		this.token = token;
+	}
+	
 	/**
 	 * Search pane
 	 */
@@ -101,6 +105,15 @@ public class MainAppController {
 		private TableView<IVehicle> managementView;
 		
 		@FXML
+		private TableColumn<IVehicle, String> managementModel;
+
+		@FXML
+		private TableColumn<IVehicle, Integer> managementYear;
+		
+		@FXML
+		private TableColumn<IVehicle, String> managementMatricul;
+		
+		@FXML
 		private TableColumn<IVehicle, Boolean> managementAction;
 		
 		@FXML
@@ -118,11 +131,9 @@ public class MainAppController {
 		@FXML
 		private Button addButton;
 		
-	@SuppressWarnings("unchecked")
 	@FXML
 	public void initialize() {
-		this.token = (String) this.searchModel.getScene().getUserData();
-				
+		
 		this.searchModel.setAccessibleHelp("");
 		this.searchModel.setTooltip(new Tooltip());
 		
@@ -155,21 +166,18 @@ public class MainAppController {
 			}
 			try {
 				Tab selected = this.tabPane.getSelectionModel().getSelectedItem();
-				ObservableList<IVehicle> _data = ((TableView<IVehicle>) selected.getContent()).getItems();
+				ObservableList<IVehicle> _data;
+				_data = selected.getId().equals("tabRent") ? this.rentedVehiclesData : this.vehiclesData;
 				_data.clear();
-				_data.addAll(_MainClient.park.searchBy(this.token, selected.getContent().getId(), filters));
+				_data.addAll(_MainClient.park.searchBy(this.token, selected.getId(), filters));
 			} catch (AuthenticationException e) {
-				// XXX: e contains "This login already exists!" exceptions
-				// XXX: show pop-up with e.getMessage() content
 				javax.swing.JOptionPane.showMessageDialog(null, e.getMessage());
 			} catch (RemoteException e) {
-				// XXX: show pop-up "Connection issue...\nPlease restart application."
 				javax.swing.JOptionPane.showMessageDialog(null,"Connection issue...\nPlease restart application.");
 			}
 		});
 		
 		this.vehicleView.setItems(vehiclesData);
-        this.vehicleView.getColumns().addAll(this.vehicleModel, this.vehicleYear, this.vehicleMatricul, this.vehiclePending, this.vehicleAction);
         this.vehicleModel.setCellValueFactory(new PropertyValueFactory<IVehicle, String>("model"));
         this.vehicleYear.setCellValueFactory(new PropertyValueFactory<IVehicle, Integer>("year"));
         this.vehicleMatricul.setCellValueFactory(new PropertyValueFactory<IVehicle, String>("matricul"));
@@ -177,6 +185,8 @@ public class MainAppController {
         	try {
 				return new SimpleIntegerProperty(_MainClient.park.getPendingPosition(token, value.getValue().getMatricul())).asObject();
 			} catch (RemoteException e) {
+				return new SimpleIntegerProperty(-1).asObject();
+			} catch (AuthenticationException e) {
 				return new SimpleIntegerProperty(-1).asObject();
 			}
         });
@@ -188,8 +198,8 @@ public class MainAppController {
                 public void updateItem(Boolean item, boolean empty) {
                     super.updateItem( item, empty );
                     if(empty) {
-                        setGraphic( null );
-                        setText( null );
+                        setGraphic(null);
+                        setText(null);
                     } else {
                         btn.setOnAction( event -> {
                             IVehicle vehicle = getTableView().getItems().get(getIndex());
@@ -198,11 +208,8 @@ public class MainAppController {
 							} catch (ParkException e) {
 								javax.swing.JOptionPane.showMessageDialog(null, e.getMessage()); 
 							} catch (AuthenticationException e) {
-								// XXX: e can contains either "Invalid login/password" or "Already logged in" exceptions
-								// XXX: show pop-up with e.getMessage() content
 								javax.swing.JOptionPane.showMessageDialog(null, e.getMessage()); 
 							} catch (RemoteException e) {
-								// XXX: show pop-up "Connection issue...\nPlease restart application."
 								javax.swing.JOptionPane.showMessageDialog(null,"Connection issue...\nPlease restart application."); 
 							}
                         });
@@ -215,7 +222,6 @@ public class MainAppController {
         });
         
         this.rentView.setItems(rentedVehiclesData);
-        this.rentView.getColumns().addAll(this.rentModel, this.rentYear, this.rentMatricul, this.rentAction);
         this.rentModel.setCellValueFactory(new PropertyValueFactory<IVehicle, String>("model"));
         this.rentYear.setCellValueFactory(new PropertyValueFactory<IVehicle, Integer>("year"));
         this.rentMatricul.setCellValueFactory(new PropertyValueFactory<IVehicle, String>("matricul"));
@@ -237,11 +243,8 @@ public class MainAppController {
 							} catch (ParkException e) {
 								javax.swing.JOptionPane.showMessageDialog(null, e.getMessage()); 
 							} catch (AuthenticationException e) {
-								// XXX: e can contains either "Invalid login/password" or "Already logged in" exceptions
-								// XXX: show pop-up with e.getMessage() content
 								javax.swing.JOptionPane.showMessageDialog(null, e.getMessage()); 
 							} catch (RemoteException e) {
-								// XXX: show pop-up "Connection issue...\nPlease restart application."
 								javax.swing.JOptionPane.showMessageDialog(null,"Connection issue...\nPlease restart application."); 
 							}
                         });
@@ -254,10 +257,9 @@ public class MainAppController {
         });
         
         this.managementView.setItems(vehiclesData);
-        this.managementView.getColumns().addAll(this.vehicleModel, this.vehicleYear, this.vehicleMatricul, this.managementAction);
-        this.vehicleModel.setCellValueFactory(new PropertyValueFactory<IVehicle, String>("model"));
-        this.vehicleYear.setCellValueFactory(new PropertyValueFactory<IVehicle, Integer>("year"));
-        this.vehicleMatricul.setCellValueFactory(new PropertyValueFactory<IVehicle, String>("matricul"));
+        this.managementModel.setCellValueFactory(new PropertyValueFactory<IVehicle, String>("model"));
+        this.managementYear.setCellValueFactory(new PropertyValueFactory<IVehicle, Integer>("year"));
+        this.managementMatricul.setCellValueFactory(new PropertyValueFactory<IVehicle, String>("matricul"));
         this.managementAction.setCellValueFactory(new PropertyValueFactory<>(""));
         this.managementAction.setCellFactory(value -> {
         	final TableCell<IVehicle, Boolean> cell = new TableCell<IVehicle, Boolean>() {
@@ -276,11 +278,8 @@ public class MainAppController {
 							} catch (ParkException e) {
 								javax.swing.JOptionPane.showMessageDialog(null, e.getMessage()); 
 							} catch (AuthenticationException e) {
-								// XXX: e can contains either "Invalid login/password" or "Already logged in" exceptions
-								// XXX: show pop-up with e.getMessage() content
 								javax.swing.JOptionPane.showMessageDialog(null, e.getMessage()); 
 							} catch (RemoteException e) {
-								// XXX: show pop-up "Connection issue...\nPlease restart application."
 								javax.swing.JOptionPane.showMessageDialog(null,"Connection issue...\nPlease restart application."); 
 							}
                         });
@@ -327,15 +326,15 @@ public class MainAppController {
 		this.addButton.setOnAction(value -> {
 			try {
 				_MainClient.park.addVehicle(this.token, this.addMatricul.getText(), Integer.parseInt(this.addYear.getText()), this.addModel.getText(), Double.parseDouble(this.addPrice.getText()));
+				javax.swing.JOptionPane.showMessageDialog(null, "New vehicle added: " + this.addMatricul.getText());
 			} catch (AuthenticationException e) {
-				// XXX: e contains "This login already exists!" exceptions
-				// XXX: show pop-up with e.getMessage() content
 				javax.swing.JOptionPane.showMessageDialog(null, e.getMessage());
 			} catch (NumberFormatException e) {
 				javax.swing.JOptionPane.showMessageDialog(null, "Price and Year fields accept only numeric values!");
 			} catch (RemoteException e) {
-				// XXX: show pop-up "Connection issue...\nPlease restart application."
 				javax.swing.JOptionPane.showMessageDialog(null,"Connection issue...\nPlease restart application.");
+			} catch (ParkException e) {
+				javax.swing.JOptionPane.showMessageDialog(null, e.getMessage());
 			}
 		});
 		

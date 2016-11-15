@@ -17,7 +17,7 @@
 <?import javafx.scene.text.Font?>
 
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="578.0" prefWidth="852.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1">
+<VBox fx:controller="MainAppController" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="578.0" prefWidth="852.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <HBox id="HBox" alignment="CENTER_LEFT" spacing="5.0">
          <padding>
@@ -96,7 +96,7 @@
                                                             <TextField fx:id="addModel" layoutX="77.0" layoutY="31.0" promptText="Model" />
                                                             <TextField fx:id="addYear" layoutX="77.0" layoutY="69.0" promptText="Année" />
                                                             <Button fx:id="addButton" layoutX="252.0" layoutY="162.0" mnemonicParsing="false" text="Ajouter" />
-                                                            <TextField fx:id="addmatricul" layoutX="307.0" layoutY="32.0" promptText="Immatriculation" />
+                                                            <TextField fx:id="addMatricul" layoutX="307.0" layoutY="32.0" promptText="Immatriculation" />
                                                             <TextField fx:id="addPrice" layoutX="306.0" layoutY="69.0" promptText="Prix" />
                                                          </children>
                                                       </AnchorPane>
