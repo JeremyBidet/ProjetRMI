@@ -132,7 +132,10 @@ public class Park extends UnicastRemoteObject implements IPark {
 			throw new AuthenticationException("You are not logged in!");
 		}
 		List<PendingUser> pending = new ArrayList<PendingUser>(vehicles.get(new Vehicle(matricul)));
-		return pending.indexOf(new PendingUser(Authentication.getUser(token)));
+		if(pending.contains(new PendingUser(Authentication.getUser(token)))){
+			return pending.indexOf(new PendingUser(Authentication.getUser(token)));
+		}
+		return pending.size();
 	}
 
 	@Override
