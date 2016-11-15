@@ -37,12 +37,7 @@ public class MainAppStage extends Stage {
 				// TODO: show pop-up "Connection issue...\nPlease restart application."
 			} catch (AuthenticationException e) {
 				// XXX: show pop-up with AuthenticationException message "You are not logged in!"
-<<<<<<< HEAD
 				javax.swing.JOptionPane.showMessageDialog(null,"You are not logged in!");
-=======
-				javax.swing.JOptionPane.showMessageDialog(null,"You are not logged in!"); 
-
->>>>>>> branch 'dev' of https://github.com/JeremyBidet/ProjetRMI.git
 			}
 			super.onHidingProperty();
 		});
