@@ -25,7 +25,8 @@ public class MainAppStage extends Stage {
 			} catch (RemoteException e) {
 				// TODO:
 			} catch (AuthenticationException e) {
-				// TODO: show pop-up with AuthenticationException message "You are not logged in!"
+				// XXX: show pop-up with AuthenticationException message "You are not logged in!"
+				javax.swing.JOptionPane.showMessageDialog(null,"You are not logged in!"); 
 			}
 			super.onCloseRequestProperty();
 		});
@@ -35,7 +36,9 @@ public class MainAppStage extends Stage {
 			} catch (RemoteException e) {
 				// TODO:
 			} catch (AuthenticationException e) {
-				// TODO: show pop-up with AuthenticationException message "You are not logged in!"
+				// XXX: show pop-up with AuthenticationException message "You are not logged in!"
+				javax.swing.JOptionPane.showMessageDialog(null,"You are not logged in!"); 
+
 			}
 			super.onHidingProperty();
 		});
@@ -55,7 +58,8 @@ public class MainAppStage extends Stage {
 			} catch (RemoteException e) {
 				// TODO:
 			} catch (AuthenticationException e) {
-				// TODO: show pop-up with AuthenticationException message "You are not logged in!"
+				// XXX: show pop-up with AuthenticationException message "You are not logged in!"
+				javax.swing.JOptionPane.showMessageDialog(null,"You are not logged in!"); 
 			}
 			super.onCloseRequestProperty();
 		});
@@ -65,7 +69,8 @@ public class MainAppStage extends Stage {
 			} catch (RemoteException e) {
 				// TODO:
 			} catch (AuthenticationException e) {
-				// TODO: show pop-up with AuthenticationException message "You are not logged in!"
+				// XXX: show pop-up with AuthenticationException message "You are not logged in!"
+				javax.swing.JOptionPane.showMessageDialog(null,"You are not logged in!"); 
 			}
 			super.onHidingProperty();
 		});

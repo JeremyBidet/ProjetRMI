@@ -29,12 +29,17 @@ public class SignInController {
 			mastage.show();
 			this.signIn.getScene().getWindow().hide();
 		} catch (RemoteException e) {
-			// TODO: show pop-up "Connection issue...\nPlease restart application."
+			// XXX: show pop-up "Connection issue...\nPlease restart application."
+			javax.swing.JOptionPane.showMessageDialog(null,"Connection issue...\nPlease restart application."); 
+
 		} catch (IOException e) {
-			// TODO: show pop-up "Application issue...\nPlease restart application."
+			// XXX: show pop-up "Application issue...\nPlease restart application."
+			javax.swing.JOptionPane.showMessageDialog(null,"Application issue...\nPlease restart application."); 
+
 		} catch (AuthenticationException e) {
-			// TODO: e can contains either "Invalid login/password" or "Already logged in" exceptions
-			// TODO: show pop-up with e.getMessage() content
+			// XXX: e can contains either "Invalid login/password" or "Already logged in" exceptions
+			// XXX: show pop-up with e.getMessage() content
+			javax.swing.JOptionPane.showMessageDialog(null,e.getMessage()); 
 		}
 	}
 	
@@ -45,9 +50,13 @@ public class SignInController {
 			sustage.show();
 			this.signIn.getScene().getWindow().hide();
 		} catch (RemoteException e) {
-			// TODO: show pop-up "Connection issue...\nPlease restart application."
+			// XXX: show pop-up "Connection issue...\nPlease restart application."
+			javax.swing.JOptionPane.showMessageDialog(null,"Connection issue...\nPlease restart application."); 
+
 		} catch (IOException e) {
-			// TODO: show pop-up "Application issue...\nPlease restart application."
+			// XXX: show pop-up "Application issue...\nPlease restart application."
+			javax.swing.JOptionPane.showMessageDialog(null,"Application issue...\nPlease restart application."); 
+
 		}
 	}
 
