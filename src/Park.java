@@ -32,9 +32,29 @@ public class Park extends UnicastRemoteObject implements IPark {
 	}
 
 	@Override
-	public boolean addVehicle(String token, String matricul, int year, String model, double price) throws RemoteException {
+	public List<IVehicle> getVehicles(String token) throws AuthenticationException {
 		if(!loggedIn(token)) {
-			throw new RemoteException("You are not logged in!");
+			throw new AuthenticationException("You are not logged in!");
+		}
+		return vehicles.keySet().stream().collect(Collectors.toList());
+	}
+	
+	@Override
+	public List<IVehicle> getRentedVehicles(String token) throws AuthenticationException {
+		if(!loggedIn(token)) {
+			throw new AuthenticationException("You are not logged in!");
+		}
+		IUser currentUser = Authentication.getUser(token);
+		return rentedVehicles.entrySet().stream()
+				.filter(e -> e.getValue().equals(currentUser))
+				.map(e -> e.getKey())
+				.collect(Collectors.toList());
+	}
+
+	@Override
+	public boolean addVehicle(String token, String matricul, int year, String model, double price) throws RemoteException, AuthenticationException {
+		if(!loggedIn(token)) {
+			throw new AuthenticationException("You are not logged in!");
 		}
 		IVehicle key = new Vehicle(matricul);
 		if (vehicles.containsKey(key)) {
@@ -47,19 +67,19 @@ public class Park extends UnicastRemoteObject implements IPark {
 	}
 
 	@Override
-	public boolean removeVehicle(String token, String matricul) throws RemoteException {
+	public boolean removeVehicle(String token, String matricul) throws RemoteException, AuthenticationException, ParkException {
 		if(!loggedIn(token)) {
-			throw new RemoteException("You are not logged in!");
+			throw new AuthenticationException("You are not logged in!");
 		}
 		IVehicle key = new Vehicle(matricul);
 		if(vehicles.containsKey(key)) {
 			vehicles.remove(key);
 			return true;
 		}
-		return false;
+		throw new ParkException("This vehicle does not exist!");
 	}
 
-	private synchronized boolean rentVehicle(IVehicle vehicle) throws RemoteException {
+	private synchronized boolean rentVehicle(IVehicle vehicle) throws ParkException {
 		if(vehicles.containsKey(vehicle) && !rentedVehicles.containsKey(vehicle)) {
 			if(vehicles.get(vehicle).isEmpty()) {
 				return false;
@@ -71,13 +91,13 @@ public class Park extends UnicastRemoteObject implements IPark {
 			//notif observer
 			return true;
 		}
-		return false;
+		throw new ParkException("This vehicle does not exist!");
 	}
 
 	@Override
-	public boolean returnVehicle(String token, String matricul) throws RemoteException {
+	public boolean returnVehicle(String token, String matricul) throws RemoteException, AuthenticationException, ParkException {
 		if(!loggedIn(token)) {
-			throw new RemoteException("You are not logged in!");
+			throw new AuthenticationException("You are not logged in!");
 		}
 		IVehicle key = new Vehicle(matricul);
 		if(rentedVehicles.containsKey(key)) {
@@ -85,13 +105,13 @@ public class Park extends UnicastRemoteObject implements IPark {
 			rentVehicle(key);
 			return true;
 		}
-		return false;
+		throw new ParkException("This vehicle does not exist!");
 	}
 
 	@Override
-	public boolean rentVehicle(String token, String matricul) throws RemoteException {
+	public boolean rentVehicle(String token, String matricul) throws RemoteException, AuthenticationException, ParkException {
 		if(!loggedIn(token)) {
-			throw new RemoteException("You are not logged in!");
+			throw new AuthenticationException("You are not logged in!");
 		}
 		IVehicle key = new Vehicle(matricul);
 		if(vehicles.containsKey(key)) {
@@ -100,14 +120,31 @@ public class Park extends UnicastRemoteObject implements IPark {
 				vehicles.get(key).add(new PendingUser(user));
 				return rentVehicle(key);
 			} catch(NoSuchElementException e) {
-				throw new RemoteException("You are not logged in!");
+				throw new AuthenticationException("You are not logged in!");
 			}
 		}
-		throw new RemoteException("This vehicle does not exist!");
+		throw new ParkException("This vehicle does not exist!");
 	}
 
 	@Override
-	public List<IVehicle> searchBy(Map<String, Object> filters) throws RemoteException {
+	public int getPendingPosition(String token, String matricul) throws RemoteException, AuthenticationException {
+		if(!loggedIn(token)) {
+			throw new AuthenticationException("You are not logged in!");
+		}
+		List<PendingUser> pending = new ArrayList<PendingUser>(vehicles.get(new Vehicle(matricul)));
+		return pending.indexOf(new PendingUser(Authentication.getUser(token)));
+	}
+
+	@Override
+	public IUser getRental(String token, String matricul) throws RemoteException, AuthenticationException {
+		if(!loggedIn(token)) {
+			throw new AuthenticationException("You are not logged in!");
+		}
+		return rentedVehicles.get(new Vehicle(matricul));
+	}
+
+	@Override
+	public List<IVehicle> searchBy(Map<String, Object> filters) throws AuthenticationException {
 		final Map<String, Method> methods = Arrays.asList(IVehicle.class.getMethods()).stream().collect(Collectors.toMap(m -> m.getName().replace("get", "").toLowerCase(), m -> m));
 		return vehicles.keySet().stream().filter(v -> {
 			return filters.entrySet().stream().map(f -> {
@@ -123,18 +160,18 @@ public class Park extends UnicastRemoteObject implements IPark {
 		}).collect(Collectors.toList());
 	}
 
-	private boolean isBuyable(IVehicle vehicle) throws RemoteException {
+	private boolean isBuyable(IVehicle vehicle) throws RemoteException, ParkException {
 		if(rentedVehicles.containsKey(vehicle)) {
-			return false;
+			throw new ParkException("This vehicle is already rented!");
 		}
 		int year = Calendar.getInstance().get(Calendar.YEAR);
 		return vehicle.getYear() == year && ((Vehicle) vehicle).getNbRented() > 0;
 	}
 
 	@Override
-	public boolean buy(String token, String matricul) throws RemoteException {
+	public boolean buy(String token, String matricul) throws RemoteException, AuthenticationException, ParkException {
 		if(!loggedIn(token)) {
-			throw new RemoteException("You are not logged in!");
+			throw new AuthenticationException("You are not logged in!");
 		}
 		IVehicle v = new Vehicle(matricul);
 		if(vehicles.containsKey(v)) {
@@ -148,33 +185,25 @@ public class Park extends UnicastRemoteObject implements IPark {
 				return false;
 			}
 		}
-		throw new RemoteException("This vehicle does not exist!");
+		throw new ParkException("This vehicle does not exist!");
 	}
 
 	@Override
-	public List<IVehicle> getVehicles(String token) throws RemoteException {
+	public List<IComment> getComments(String token, String matricul) throws RemoteException, AuthenticationException, ParkException {
 		if(!loggedIn(token)) {
-			throw new RemoteException("You are not logged in!");
-		}
-		return new ArrayList<>(vehicles.keySet());
-	}
-
-	@Override
-	public List<IComment> getComments(String token, String matricul) throws RemoteException {
-		if(!loggedIn(token)) {
-			throw new RemoteException("You are not logged in!");
+			throw new AuthenticationException("You are not logged in!");
 		}
 		IVehicle v = new Vehicle(matricul);
 		if(vehicleComments.containsKey(v)) {
 			return vehicleComments.get(v);
 		}
-		throw new RemoteException("This vehicle does not exist!");
+		throw new ParkException("This vehicle does not exist!");
 	}
 
 	@Override
-	public boolean addComment(String token, String matricul, String comment, int mark) throws RemoteException {
+	public boolean addComment(String token, String matricul, String comment, int mark) throws RemoteException, AuthenticationException {
 		if(!loggedIn(token)) {
-			throw new RemoteException("You are not logged in!");
+			throw new AuthenticationException("You are not logged in!");
 		}
 		IVehicle v = new Vehicle(matricul);
 		if(vehicleComments.containsKey(v)) {
@@ -183,27 +212,10 @@ public class Park extends UnicastRemoteObject implements IPark {
 				vehicleComments.get(v).add(new Comment(mark, user, comment));
 				return true;
 			} catch(NoSuchElementException e) {
-				throw new RemoteException("You are not logged in!");
+				throw new AuthenticationException("You are not logged in!");
 			}
 		}
 		throw new RemoteException("This vehicle does not exist!");
-	}
-
-	@Override
-	public int getPendingPosition(String token, String matricul) throws RemoteException {
-		if(!loggedIn(token)) {
-			throw new RemoteException("You are not logged in!");
-		}
-		List<PendingUser> pending = new ArrayList<PendingUser>(vehicles.get(new Vehicle(matricul)));
-		return pending.indexOf(new PendingUser(Authentication.getUser(token)));
-	}
-
-	@Override
-	public IUser getRental(String token, String matricul) throws RemoteException {
-		if(!loggedIn(token)) {
-			throw new RemoteException("You are not logged in!");
-		}
-		return rentedVehicles.get(new Vehicle(matricul));
 	}
 	
 }
