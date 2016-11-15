@@ -9,7 +9,11 @@
 <?import javafx.scene.layout.TilePane?>
 <?import javafx.scene.layout.VBox?>
 
+<<<<<<< HEAD
 <VBox fx:controller="SignUpController" prefHeight="172.0" prefWidth="314.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1">
+=======
+<VBox prefHeight="172.0" prefWidth="314.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1">
+>>>>>>> branch 'dev' of https://github.com/JeremyBidet/ProjetRMI.git
   <children>
       <TilePane prefHeight="394.0" prefWidth="429.0" VBox.vgrow="ALWAYS">
          <children>
