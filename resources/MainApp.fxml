@@ -46,7 +46,7 @@
                            <tabs>
                               <Tab fx:id="tabVehicle" text="Voiture">
                                  <content>
-                                    <TableView prefHeight="537.0" prefWidth="510.0">
+                                    <TableView fx:id="vehicleView" prefHeight="537.0" prefWidth="510.0">
                                        <columns>
                                           <TableColumn fx:id="vehicleModel" prefWidth="136.43067932128906" text="Model" />
                                           <TableColumn fx:id="vehicleYear" prefWidth="83.8623046875" text="Année" />
@@ -59,7 +59,7 @@
                               </Tab>
                               <Tab fx:id="tabRent" text="Loué">
                                  <content>
-                                    <TableView prefHeight="537.0" prefWidth="646.0">
+                                    <TableView fx:id="rentView" prefHeight="537.0" prefWidth="646.0">
                                        <columns>
                                           <TableColumn fx:id="rentModel" prefWidth="136.43067932128906" text="Model" />
                                           <TableColumn fx:id="rentYear" prefWidth="83.8623046875" text="Année" />
@@ -77,7 +77,7 @@
                                              <items>
                                                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="244.0" prefWidth="591.0">
                                                    <children>
-                                                      <TableView layoutX="-1.0" layoutY="-1.0" prefHeight="252.0" prefWidth="669.0">
+                                                      <TableView fx:id="managementView" layoutX="-1.0" layoutY="-1.0" prefHeight="252.0" prefWidth="669.0">
                                                          <columns>
                                                             <TableColumn fx:id="managementModel" prefWidth="136.43067932128906" text="Model" />
                                                             <TableColumn fx:id="managementYear" prefWidth="83.8623046875" text="Année" />
