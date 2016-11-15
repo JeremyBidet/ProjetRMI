@@ -32,6 +32,7 @@ public class SignUpController {
 	private Button buttonSignUp;
 	
 	@FXML
+<<<<<<< HEAD
 	public void initialize() {
 		this.registerEmail.setAccessibleHelp("The login need to be an e-mail!");
 		this.registerEmail.setTooltip(new Tooltip());
@@ -87,6 +88,26 @@ public class SignUpController {
 				javax.swing.JOptionPane.showMessageDialog(null,e.getMessage()); 
 			}
 		});
+=======
+	private void signUpHandler() {
+		try {
+			String token = _MainClient.auth.register(registerEmail.getText(), registerLastname.getText(), registerFirstname.getText(), Role.valueOf(registerProfile.getValue()).ordinal(), Utils.sha1(registerPassword.getText()));
+			MainAppStage mastage = new MainAppStage();
+			mastage.setUserData(token);
+			mastage.show();
+			this.buttonSignUp.getScene().getWindow().hide();
+		} catch (RemoteException e) {
+			// XXX: show pop-up "Connection issue...\nPlease restart application."
+			javax.swing.JOptionPane.showMessageDialog(null,"Connection issue...\nPlease restart application.");
+		} catch (IOException e) {
+			// XXX: show pop-up "Application issue...\nPlease restart application."
+			javax.swing.JOptionPane.showMessageDialog(null,"Application issue...\nPlease restart application."); 
+		} catch (AuthenticationException e) {
+			// XXX: e contains "This login already exists!" exceptions
+			// XXX: show pop-up with e.getMessage() content
+			javax.swing.JOptionPane.showMessageDialog(null,e.getMessage()); 
+		}
+>>>>>>> branch 'dev' of https://github.com/JeremyBidet/ProjetRMI.git
 	}
 
 }
