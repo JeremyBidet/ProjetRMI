@@ -18,9 +18,10 @@ public class _MainClient extends Application {
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		Parent root = FXMLLoader.load(getClass().getResource("login.fxml"));
-		primaryStage.setTitle("Rent-A-Car");
-		primaryStage.setScene(new Scene(root, 1050, 600));
+		primaryStage.setTitle("Login");
+		primaryStage.setScene(new Scene(root));
 		primaryStage.setResizable(false);
+		primaryStage.centerOnScreen();
 		primaryStage.show();
 	}
 	
@@ -35,6 +36,8 @@ public class _MainClient extends Application {
 			IAuthentication auth = (IAuthentication) Naming.lookup("rmi://localhost:1099/AuthenticationService");
 			IPark park = (IPark) Naming.lookup("rmi://localhost:1099/ParkService");
 			//chargement notifs observer
+			
+			Application.launch(_MainClient.class, args);
 			
 			/**
 			 * Park & Auth INIT...
