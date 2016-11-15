@@ -137,7 +137,7 @@ public class _MainClient extends Application {
 		
 		Map<String, Object> filters = new HashMap<String, Object>();
 		filters.put("model", "Vegan");
-		vehicles = park.searchBy(filters);
+		vehicles = park.searchBy(token, "vehicleView", filters);
 		System.out.println("Vegan list (1 res): " + vehicles.stream().map(v -> {
 			try {
 				return "["+v.getMatricul()+"] " + v.getModel() + "("+v.getYear()+") " + " @"+v.getPrice()+"$";
@@ -149,7 +149,7 @@ public class _MainClient extends Application {
 		
 		Map<String, Object> filters2 = new HashMap<String, Object>();
 		filters2.put("year", 2009);
-		vehicles = park.searchBy(filters2);
+		vehicles = park.searchBy(token, "vehicleView", filters2);
 		System.out.println("2009 list (4 res): " + vehicles.stream().map(v -> {
 			try {
 				return "["+v.getMatricul()+"] " + v.getModel() + "("+v.getYear()+") " + " @"+v.getPrice()+"$";
@@ -160,7 +160,7 @@ public class _MainClient extends Application {
 		}).reduce((v1,v2) -> v1 + "\n" + v2).get());
 		
 		filters.putAll(filters2);
-		vehicles = park.searchBy(filters);
+		vehicles = park.searchBy(token, "vehicleView", filters);
 		System.out.println("Vegan/2009 list (1 res): " + vehicles.stream().map(v -> {
 			try {
 				return "["+v.getMatricul()+"] " + v.getModel() + "("+v.getYear()+") " + " @"+v.getPrice()+"$";

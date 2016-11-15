@@ -41,14 +41,13 @@ public class SignInController {
 			try {
 				// TODO: add controls for field: they need to be filled
 				String token = _MainClient.auth.login(login.getText(), Utils.sha1(password.getText()));
-				MainAppStage mastage = new MainAppStage();
+				MainAppStage mastage = new MainAppStage(token);
 				mastage.setUserData(token);
 				mastage.show();
 				this.signIn.getScene().getWindow().hide();
 			} catch (RemoteException e) {
 				// XXX: show pop-up "Connection issue...\nPlease restart application."
 				javax.swing.JOptionPane.showMessageDialog(null,"Connection issue...\nPlease restart application."); 
-
 			} catch (IOException e) {
 				// XXX: show pop-up "Application issue...\nPlease restart application."
 				javax.swing.JOptionPane.showMessageDialog(null,"Application issue...\nPlease restart application."); 

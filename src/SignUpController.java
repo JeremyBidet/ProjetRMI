@@ -71,7 +71,7 @@ public class SignUpController {
 			try {
 				// TODO: add controls for field: they need to be filled
 				String token = _MainClient.auth.register(registerEmail.getText(), registerLastname.getText(), registerFirstname.getText(), Role.valueOf(registerProfile.getValue()).ordinal(), Utils.sha1(registerPassword.getText()));
-				MainAppStage mastage = new MainAppStage();
+				MainAppStage mastage = new MainAppStage(token);
 				mastage.setUserData(token);
 				mastage.show();
 				this.buttonSignUp.getScene().getWindow().hide();
@@ -84,7 +84,7 @@ public class SignUpController {
 			} catch (AuthenticationException e) {
 				// XXX: e contains "This login already exists!" exceptions
 				// XXX: show pop-up with e.getMessage() content
-				javax.swing.JOptionPane.showMessageDialog(null,e.getMessage()); 
+				javax.swing.JOptionPane.showMessageDialog(null,e.getMessage());
 			}
 		});
 	}

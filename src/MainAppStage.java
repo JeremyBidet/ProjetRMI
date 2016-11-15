@@ -9,11 +9,8 @@ import javafx.stage.StageStyle;
 
 public class MainAppStage extends Stage {
 	
-	private String token;
-	
-	public MainAppStage() throws IOException {
+	public MainAppStage(String token) throws IOException {
 		super();
-		this.token = (String) super.getUserData();
 		Parent root = FXMLLoader.load(getClass().getResource("/resources/MainApp.fxml"));
 		super.setTitle("UPEM Rent-a-car");
 		super.setScene(new Scene(root));
@@ -23,7 +20,8 @@ public class MainAppStage extends Stage {
 			try {
 				_MainClient.auth.logoff(token);
 			} catch (RemoteException e) {
-				// TODO: show pop-up "Connection issue...\nPlease restart application."
+				// XXX: show pop-up "Connection issue...\nPlease restart application."
+				javax.swing.JOptionPane.showMessageDialog(null,"Connection issue...\nPlease restart application.");
 			} catch (AuthenticationException e) {
 				// XXX: show pop-up with AuthenticationException message "You are not logged in!"
 				javax.swing.JOptionPane.showMessageDialog(null,"You are not logged in!"); 
@@ -34,7 +32,8 @@ public class MainAppStage extends Stage {
 			try {
 				_MainClient.auth.logoff(token);
 			} catch (RemoteException e) {
-				// TODO: show pop-up "Connection issue...\nPlease restart application."
+				// XXX: show pop-up "Connection issue...\nPlease restart application."7
+				javax.swing.JOptionPane.showMessageDialog(null,"Connection issue...\nPlease restart application.");
 			} catch (AuthenticationException e) {
 				// XXX: show pop-up with AuthenticationException message "You are not logged in!"
 				javax.swing.JOptionPane.showMessageDialog(null,"You are not logged in!");
@@ -42,10 +41,9 @@ public class MainAppStage extends Stage {
 			super.onHidingProperty();
 		});
 	}
-	
-	public MainAppStage(StageStyle style) throws IOException {
+
+	public MainAppStage(String token, StageStyle style) throws IOException {
 		super(style);
-		this.token = (String) super.getUserData();
 		Parent root = FXMLLoader.load(getClass().getResource("MainApp.fxml"));
 		super.setTitle("UPEM Rent-a-car");
 		super.setScene(new Scene(root));
@@ -55,7 +53,8 @@ public class MainAppStage extends Stage {
 			try {
 				_MainClient.auth.logoff(token);
 			} catch (RemoteException e) {
-				// TODO: show pop-up "Connection issue...\nPlease restart application."
+				// XXX: show pop-up "Connection issue...\nPlease restart application."
+				javax.swing.JOptionPane.showMessageDialog(null,"Connection issue...\nPlease restart application.");
 			} catch (AuthenticationException e) {
 				// XXX: show pop-up with AuthenticationException message "You are not logged in!"
 				javax.swing.JOptionPane.showMessageDialog(null,"You are not logged in!"); 
@@ -66,17 +65,14 @@ public class MainAppStage extends Stage {
 			try {
 				_MainClient.auth.logoff(token);
 			} catch (RemoteException e) {
-				// TODO: show pop-up "Connection issue...\nPlease restart application."
+				// XXX: show pop-up "Connection issue...\nPlease restart application."
+				javax.swing.JOptionPane.showMessageDialog(null,"Connection issue...\nPlease restart application.");
 			} catch (AuthenticationException e) {
 				// XXX: show pop-up with AuthenticationException message "You are not logged in!"
 				javax.swing.JOptionPane.showMessageDialog(null,"You are not logged in!"); 
 			}
 			super.onHidingProperty();
 		});
-	}
-	
-	public String getToken() {
-		return this.token;
 	}
 
 }

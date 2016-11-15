@@ -21,7 +21,7 @@ public interface IPark extends Remote {
 
 	IUser getRental(String token, String matricul) throws RemoteException, AuthenticationException;
 	
-	List<IVehicle> searchBy(Map<String, Object> filters) throws AuthenticationException;
+	List<IVehicle> searchBy(String token, String list, Map<String, Object> filters) throws AuthenticationException;
 
 	boolean buy(String token, String matricul) throws RemoteException, AuthenticationException, ParkException;
 	

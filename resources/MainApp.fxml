@@ -42,7 +42,7 @@
                <children>
                   <ScrollPane prefHeight="-1.0" prefWidth="-1.0">
                      <content>
-                        <TabPane prefHeight="570.0" prefWidth="617.0" tabClosingPolicy="UNAVAILABLE">
+                        <TabPane fx:id="tabPane" prefHeight="570.0" prefWidth="617.0" tabClosingPolicy="UNAVAILABLE">
                            <tabs>
                               <Tab fx:id="tabVehicle" text="Voiture">
                                  <content>

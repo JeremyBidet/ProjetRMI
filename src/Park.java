@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
+import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
 import java.util.stream.Collectors;
@@ -144,19 +145,27 @@ public class Park extends UnicastRemoteObject implements IPark {
 	}
 
 	@Override
-	public List<IVehicle> searchBy(Map<String, Object> filters) throws AuthenticationException {
+	public List<IVehicle> searchBy(String token, String list, Map<String, Object> filters) throws AuthenticationException {
+		if(!loggedIn(token)) {
+			throw new AuthenticationException("You are not logged in!");
+		}
 		final Map<String, Method> methods = Arrays.asList(IVehicle.class.getMethods()).stream().collect(Collectors.toMap(m -> m.getName().replace("get", "").toLowerCase(), m -> m));
-		return vehicles.keySet().stream().filter(v -> {
-			return filters.entrySet().stream().map(f -> {
-				try {
-					if(methods.containsKey(f.getKey())) {
-						return methods.get(f.getKey()).invoke(v, new Object[0]).equals(f.getValue());
+		Set<IVehicle> filteredList = list.equals("rentView") ? rentedVehicles.keySet() : vehicles.keySet();
+		return filteredList.stream().filter(v -> {
+			try {
+				return filters.entrySet().stream().map(f -> {
+					try {
+						if(methods.containsKey(f.getKey())) {
+							return methods.get(f.getKey()).invoke(v, new Object[0]).equals(f.getValue());
+						}
+						return false;
+					} catch (Exception e) {
+						return false;
 					}
-					return false;
-				} catch (Exception e) {
-					return false;
-				}
-			}).reduce((b1, b2) -> b1 & b2).get();
+				}).reduce((b1, b2) -> b1 & b2).get();
+			} catch(Exception e) {
+				return true;
+			}
 		}).collect(Collectors.toList());
 	}
 

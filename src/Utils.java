@@ -64,8 +64,8 @@ public class Utils {
 
 	}
 
-	public static final String integerRegex = "-?\\d+";
-	public static final String doubleRegex = "-?\\d+\\.\\d+";
+	public static final String integerRegex = "\\d+";
+	public static final String doubleRegex = "\\d+\\.?\\d*";
 	public static final String stringRegex = "\".*\"";
 	public static final String booleanRegex = "true|false";
 	public static final String mailRegex = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
