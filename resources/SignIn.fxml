@@ -14,7 +14,7 @@
          <children>
           <AnchorPane accessibleText="login" maxHeight="-1.0" maxWidth="-1.0" prefHeight="169.0" prefWidth="314.0">
             <children>
-                  <TextField fx:id="login" layoutX="120.0" layoutY="28.0" />
+                  <TextField fx:id="login" layoutX="120.0" layoutY="28.0" promptText="example@email.com"/>
                   <PasswordField fx:id="password" layoutX="120.0" layoutY="68.0" />
                   <Label layoutX="42.0" layoutY="33.0" text="Login :" />
                   <Label layoutX="29.0" layoutY="73.0" text="Password :" />
