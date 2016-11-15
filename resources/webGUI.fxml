@@ -51,7 +51,7 @@
                      <content>
                         <TabPane prefHeight="570.0" prefWidth="617.0" tabClosingPolicy="UNAVAILABLE">
                            <tabs>
-                              <Tab fx:id="tabVehicle" text="Voiture">
+                              <Tab fx:id="tabVehicle" text="Vehicule">
                                  <content>
                                     <TableView fx:id="vehicleView" prefHeight="537.0" prefWidth="510.0">
                                        <columns>
