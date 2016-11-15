@@ -177,7 +177,7 @@ public class Park extends UnicastRemoteObject implements IPark {
 		if(vehicles.containsKey(v)) {
 			IVehicle vehicle = vehicles.keySet().stream().filter(ve -> ve.equals(v)).findAny().get();
 			if(isBuyable(vehicle)) {
-				//TODO: link here with web services bank and buy then remove vehicle from rent
+				// TODO: link here with web services bank and buy then remove vehicle from rent
 				vehicles.remove(vehicle);
 				vehicleComments.remove(vehicle);
 				return true;

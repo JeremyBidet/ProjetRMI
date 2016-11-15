@@ -56,7 +56,7 @@ public class Authentication extends UnicastRemoteObject implements IAuthenticati
 
 	@Override
 	public void forgotPassword(String login) throws RemoteException {
-		//TODO: send new random password by email and update password in db
+		// TODO (v2): send new random password by email and update password in db
 	}
 
 	@Override

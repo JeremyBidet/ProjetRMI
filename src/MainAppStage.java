@@ -14,7 +14,7 @@ public class MainAppStage extends Stage {
 	public MainAppStage() throws IOException {
 		super();
 		this.token = (String) super.getUserData();
-		Parent root = FXMLLoader.load(getClass().getResource("MainApp.fxml"));
+		Parent root = FXMLLoader.load(getClass().getResource("/resources/MainApp.fxml"));
 		super.setTitle("UPEM Rent-a-car");
 		super.setScene(new Scene(root));
 		super.setResizable(false);
@@ -23,7 +23,7 @@ public class MainAppStage extends Stage {
 			try {
 				_MainClient.auth.logoff(token);
 			} catch (RemoteException e) {
-				// TODO:
+				// TODO: show pop-up "Connection issue...\nPlease restart application."
 			} catch (AuthenticationException e) {
 				// XXX: show pop-up with AuthenticationException message "You are not logged in!"
 				javax.swing.JOptionPane.showMessageDialog(null,"You are not logged in!"); 
@@ -34,11 +34,10 @@ public class MainAppStage extends Stage {
 			try {
 				_MainClient.auth.logoff(token);
 			} catch (RemoteException e) {
-				// TODO:
+				// TODO: show pop-up "Connection issue...\nPlease restart application."
 			} catch (AuthenticationException e) {
 				// XXX: show pop-up with AuthenticationException message "You are not logged in!"
-				javax.swing.JOptionPane.showMessageDialog(null,"You are not logged in!"); 
-
+				javax.swing.JOptionPane.showMessageDialog(null,"You are not logged in!");
 			}
 			super.onHidingProperty();
 		});
@@ -56,7 +55,7 @@ public class MainAppStage extends Stage {
 			try {
 				_MainClient.auth.logoff(token);
 			} catch (RemoteException e) {
-				// TODO:
+				// TODO: show pop-up "Connection issue...\nPlease restart application."
 			} catch (AuthenticationException e) {
 				// XXX: show pop-up with AuthenticationException message "You are not logged in!"
 				javax.swing.JOptionPane.showMessageDialog(null,"You are not logged in!"); 
@@ -67,7 +66,7 @@ public class MainAppStage extends Stage {
 			try {
 				_MainClient.auth.logoff(token);
 			} catch (RemoteException e) {
-				// TODO:
+				// TODO: show pop-up "Connection issue...\nPlease restart application."
 			} catch (AuthenticationException e) {
 				// XXX: show pop-up with AuthenticationException message "You are not logged in!"
 				javax.swing.JOptionPane.showMessageDialog(null,"You are not logged in!"); 

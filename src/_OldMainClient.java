@@ -8,7 +8,7 @@ public class _OldMainClient extends Application {
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-		Parent root = FXMLLoader.load(getClass().getResource("app.fxml"));
+		Parent root = FXMLLoader.load(getClass().getResource("/resources/app.fxml"));
 		primaryStage.setTitle("Rent-A-Car");
 		primaryStage.setScene(new Scene(root, 1050, 600));
 		primaryStage.setResizable(false);
