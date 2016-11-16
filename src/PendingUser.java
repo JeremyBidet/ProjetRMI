@@ -3,7 +3,7 @@ import java.rmi.RemoteException;
 import java.util.Map;
 
 public class PendingUser implements Map.Entry<IUser, Long>, Comparable<PendingUser>, Serializable {
-
+	
 	private static final long serialVersionUID = -2932940952359599569L;
 	
 	private IUser key;

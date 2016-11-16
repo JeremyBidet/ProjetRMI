@@ -3,7 +3,7 @@ import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 
 public class User extends UnicastRemoteObject implements IUser {
-
+	
 	private static final long serialVersionUID = 5158506707349816920L;
 	private final String login;
 	private final String firstname;

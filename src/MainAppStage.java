@@ -9,9 +9,11 @@ import javafx.stage.StageStyle;
 
 public class MainAppStage extends Stage {
 	
+	private boolean loggedOff = false;
+	
 	public MainAppStage(String token) throws IOException {
 		super();
-		FXMLLoader loader = new FXMLLoader(getClass().getResource("/MainApp.fxml"));
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("MainApp.fxml"));
 		Parent root = loader.load();
 		MainAppController controller = loader.getController();
 		controller.setToken(token);
@@ -21,7 +23,9 @@ public class MainAppStage extends Stage {
 		super.centerOnScreen();
 		super.setOnCloseRequest(v -> {
 			try {
-				_MainClient.auth.logoff(token);
+				if(!this.loggedOff) {
+					this.loggedOff = _MainClient.auth.logoff(token);
+				}
 			} catch (AuthenticationException e) {
 				javax.swing.JOptionPane.showMessageDialog(null, e.getMessage()); 
 			} catch (RemoteException e) {
@@ -31,7 +35,9 @@ public class MainAppStage extends Stage {
 		});
 		super.setOnHiding(v -> {
 			try {
-				_MainClient.auth.logoff(token);
+				if(!this.loggedOff) {
+					this.loggedOff = _MainClient.auth.logoff(token);
+				}
 			} catch (AuthenticationException e) {
 				javax.swing.JOptionPane.showMessageDialog(null, e.getMessage());
 			} catch (RemoteException e) {
@@ -43,7 +49,7 @@ public class MainAppStage extends Stage {
 
 	public MainAppStage(String token, StageStyle style) throws IOException {
 		super(style);
-		Parent root = FXMLLoader.load(getClass().getResource("/MainApp.fxml"));
+		Parent root = FXMLLoader.load(getClass().getResource("MainApp.fxml"));
 		super.setTitle("UPEM Rent-a-car");
 		super.setScene(new Scene(root));
 		super.setResizable(false);

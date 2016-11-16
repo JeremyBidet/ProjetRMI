@@ -74,7 +74,7 @@ public class SignUpController {
 		this.buttonSignUp.setOnAction(value -> {
 			try {
 				// TODO: add controls for field: they need to be filled
-				String token = _MainClient.auth.register(registerEmail.getText(), registerLastname.getText(), registerFirstname.getText(), registerProfile.getValue().ordinal(), Utils.sha1(registerPassword.getText()));
+				String token = _MainClient.auth.register(registerEmail.getText(), registerFirstname.getText(), registerLastname.getText(), registerProfile.getValue().ordinal(), Utils.sha1(registerPassword.getText()));
 				MainAppStage mastage = new MainAppStage(token);
 				mastage.setUserData(token);
 				mastage.show();

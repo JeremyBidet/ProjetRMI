@@ -20,7 +20,7 @@ public class _MainClient extends Application {
 	
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-		Parent root = FXMLLoader.load(getClass().getResource("/SignIn.fxml"));
+		Parent root = FXMLLoader.load(getClass().getResource("SignIn.fxml"));
 		primaryStage.setTitle("Sign In");
 		primaryStage.setScene(new Scene(root));
 		primaryStage.setResizable(false);
@@ -33,7 +33,7 @@ public class _MainClient extends Application {
 		try {
 			String codebase = "file:///home/whyt/workspace/ProjetRMI/src/";
 			System.setProperty("java.rmi.server.codebase", codebase);
-			System.setProperty("java.security.policy", "/home/whyt/workspace/ProjetRMI/resources/all.policy");
+			System.setProperty("java.security.policy", _MainClient.class.getResource("all.policy").toString());
 			System.setSecurityManager(new RMISecurityManager());
 			
 			_MainClient.auth = (IAuthentication) Naming.lookup("rmi://localhost:1099/AuthenticationService");
@@ -71,6 +71,11 @@ public class _MainClient extends Application {
 		park.addVehicle(token1, "3", 2014, "Twingo", 2);
 		park.addVehicle(token1, "4", 2009, "Vegan", 10000);
 		park.addVehicle(token1, "5", 2000, "208", 13000);
+		park.addVehicle(token1, "6", 2009, "Vegan", 10000);
+		park.addVehicle(token1, "7", 2000, "208", 13000);
+		park.addVehicle(token1, "8", 2010, "Aston Martin V12 Vantage", 130000);
+		park.addVehicle(token1, "9", 2016, "BMW M4 45", 100000);
+		park.addVehicle(token1, "10", 2017, "Nissan GTR Nismo", 160000);
 		
 		park.addComment(token1, "1", "wahou", 5);
 		park.addComment(token2, "1", "bof bof bof je prefere me la péter avec mes regex", 1);
@@ -78,7 +83,11 @@ public class _MainClient extends Application {
 		park.addComment(token2, "1", "jen ai marre d'ecrire des comments", 1);
 		
 		park.rentVehicle(token1, "1");
+		park.rentVehicle(token2, "1");
 		park.rentVehicle(token3, "1");
+		park.rentVehicle(token2, "2");
+		park.rentVehicle(token1, "2");
+		park.rentVehicle(token3, "3");
 		
 		Consumer<IVehicle> c1 = (v) -> {
 			try {
@@ -137,7 +146,7 @@ public class _MainClient extends Application {
 		
 		Map<String, Object> filters = new HashMap<String, Object>();
 		filters.put("model", "Vegan");
-		vehicles = park.searchBy(token, "vehicleView", filters);
+		vehicles = park.searchVehiclesBy(token, filters);
 		System.out.println("Vegan list (1 res): " + vehicles.stream().map(v -> {
 			try {
 				return "["+v.getMatricul()+"] " + v.getModel() + "("+v.getYear()+") " + " @"+v.getPrice()+"$";
@@ -149,7 +158,7 @@ public class _MainClient extends Application {
 		
 		Map<String, Object> filters2 = new HashMap<String, Object>();
 		filters2.put("year", 2009);
-		vehicles = park.searchBy(token, "vehicleView", filters2);
+		vehicles = park.searchVehiclesBy(token, filters2);
 		System.out.println("2009 list (4 res): " + vehicles.stream().map(v -> {
 			try {
 				return "["+v.getMatricul()+"] " + v.getModel() + "("+v.getYear()+") " + " @"+v.getPrice()+"$";
@@ -160,7 +169,7 @@ public class _MainClient extends Application {
 		}).reduce((v1,v2) -> v1 + "\n" + v2).get());
 		
 		filters.putAll(filters2);
-		vehicles = park.searchBy(token, "vehicleView", filters);
+		vehicles = park.searchVehiclesBy(token, filters);
 		System.out.println("Vegan/2009 list (1 res): " + vehicles.stream().map(v -> {
 			try {
 				return "["+v.getMatricul()+"] " + v.getModel() + "("+v.getYear()+") " + " @"+v.getPrice()+"$";

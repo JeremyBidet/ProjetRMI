@@ -10,7 +10,7 @@ public class SignUpStage extends Stage {
 	
 	public SignUpStage() throws IOException {
 		super();
-		Parent root = FXMLLoader.load(getClass().getResource("/SignUp.fxml"));
+		Parent root = FXMLLoader.load(getClass().getResource("SignUp.fxml"));
 		super.setTitle("Sign Up");
 		super.setScene(new Scene(root));
 		super.setResizable(false);
@@ -19,7 +19,7 @@ public class SignUpStage extends Stage {
 	
 	public SignUpStage(StageStyle style) throws IOException {
 		super(style);
-		Parent root = FXMLLoader.load(getClass().getResource("/SignUp.fxml"));
+		Parent root = FXMLLoader.load(getClass().getResource("SignUp.fxml"));
 		super.setTitle("Sign Up");
 		super.setScene(new Scene(root));
 		super.setResizable(false);
