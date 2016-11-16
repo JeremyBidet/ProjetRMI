@@ -31,7 +31,7 @@ public class _MainClient extends Application {
 	public static void main(String[] args) {
 		
 		try {
-			String codebase = "file:///home/whyt/workspace/ProjetRMI/src/";
+			String codebase = _MainClient.class.getResource(".").toString();
 			System.setProperty("java.rmi.server.codebase", codebase);
 			System.setProperty("java.security.policy", _MainClient.class.getResource("all.policy").toString());
 			System.setSecurityManager(new RMISecurityManager());
