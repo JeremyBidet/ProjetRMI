@@ -3,7 +3,7 @@ import java.rmi.server.UnicastRemoteObject;
 import java.util.Objects;
 
 public class Comment extends UnicastRemoteObject implements IComment {
-
+	
 	private static final long serialVersionUID = 7051078013424508050L;
 
 	private final int mark;

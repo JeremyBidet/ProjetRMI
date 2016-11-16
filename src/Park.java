@@ -14,7 +14,7 @@ import java.util.TreeSet;
 import java.util.stream.Collectors;
 
 public class Park extends UnicastRemoteObject implements IPark {
-
+	
 	private static final long serialVersionUID = 2319278071804545900L;
 
 	private final HashMap<IVehicle, SortedSet<PendingUser>> vehicles = new HashMap<IVehicle, SortedSet<PendingUser>>();
@@ -156,12 +156,37 @@ public class Park extends UnicastRemoteObject implements IPark {
 	}
 
 	@Override
-	public List<IVehicle> searchBy(String token, String list, Map<String, Object> filters) throws AuthenticationException, RemoteException {
+	public List<IVehicle> searchVehiclesBy(String token, Map<String, Object> filters) throws AuthenticationException, RemoteException {
 		if(!loggedIn(token)) {
 			throw new AuthenticationException("You are not logged in!");
 		}
 		final Map<String, Method> methods = Arrays.asList(IVehicle.class.getMethods()).stream().collect(Collectors.toMap(m -> m.getName().replace("get", "").toLowerCase(), m -> m));
-		Set<IVehicle> filteredList = list.equals("tabRent") ? rentedVehicles.keySet() : vehicles.keySet();
+		return vehicles.keySet().stream().filter(v -> {
+			try {
+				return filters.entrySet().stream().map(f -> {
+					try {
+						if(methods.containsKey(f.getKey())) {
+							return methods.get(f.getKey()).invoke(v, new Object[0]).equals(f.getValue());
+						}
+						return false;
+					} catch (Exception e) {
+						return false;
+					}
+				}).reduce((b1, b2) -> b1 & b2).get();
+			} catch(Exception e) {
+				return true;
+			}
+		}).collect(Collectors.toList());
+	}
+	
+	@Override
+	public List<IVehicle> searchUserRentedVehiclesBy(String token, Map<String, Object> filters) throws AuthenticationException, RemoteException {
+		if(!loggedIn(token)) {
+			throw new AuthenticationException("You are not logged in!");
+		}
+		IUser user = Authentication.getUser(token);
+		final Map<String, Method> methods = Arrays.asList(IVehicle.class.getMethods()).stream().collect(Collectors.toMap(m -> m.getName().replace("get", "").toLowerCase(), m -> m));
+		Set<IVehicle> filteredList = rentedVehicles.entrySet().stream().filter(e -> e.getValue().equals(user)).map(e -> e.getKey()).collect(Collectors.toSet());
 		return filteredList.stream().filter(v -> {
 			try {
 				return filters.entrySet().stream().map(f -> {

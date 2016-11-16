@@ -1,5 +1,6 @@
 import java.rmi.RemoteException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -167,9 +168,16 @@ public class MainAppController {
 			try {
 				Tab selected = this.tabPane.getSelectionModel().getSelectedItem();
 				ObservableList<IVehicle> _data;
-				_data = selected.getId().equals("tabRent") ? this.rentedVehiclesData : this.vehiclesData;
+				List<IVehicle> _result;
+				if(selected.getId().equals("tabRent")) {
+					_data = this.rentedVehiclesData;
+					_result = _MainClient.park.searchUserRentedVehiclesBy(this.token, filters);
+				} else {
+					_data = this.vehiclesData;
+					_result = _MainClient.park.searchVehiclesBy(this.token, filters);
+				}
 				_data.clear();
-				_data.addAll(_MainClient.park.searchBy(this.token, selected.getId(), filters));
+				_data.addAll(_result);
 			} catch (AuthenticationException e) {
 				javax.swing.JOptionPane.showMessageDialog(null, e.getMessage());
 			} catch (RemoteException e) {
@@ -204,7 +212,9 @@ public class MainAppController {
                         btn.setOnAction( event -> {
                             IVehicle vehicle = getTableView().getItems().get(getIndex());
                             try {
-								_MainClient.park.rentVehicle(token, vehicle.getMatricul());
+								if(_MainClient.park.rentVehicle(token, vehicle.getMatricul())) {
+									javax.swing.JOptionPane.showMessageDialog(null, "This vehicle is now rented by you!");
+								}
 							} catch (ParkException e) {
 								javax.swing.JOptionPane.showMessageDialog(null, e.getMessage()); 
 							} catch (AuthenticationException e) {
@@ -239,7 +249,9 @@ public class MainAppController {
                         btn.setOnAction( event -> {
                             IVehicle vehicle = getTableView().getItems().get(getIndex());
                             try {
-								_MainClient.park.returnVehicle(token, vehicle.getMatricul());
+								if(_MainClient.park.returnVehicle(token, vehicle.getMatricul())) {
+									javax.swing.JOptionPane.showMessageDialog(null, "This vehicle is now available for rental!");
+								}
 							} catch (ParkException e) {
 								javax.swing.JOptionPane.showMessageDialog(null, e.getMessage()); 
 							} catch (AuthenticationException e) {
@@ -274,7 +286,9 @@ public class MainAppController {
                         btn.setOnAction( event -> {
                             IVehicle vehicle = getTableView().getItems().get(getIndex());
                             try {
-								_MainClient.park.removeVehicle(token, vehicle.getMatricul());
+								if(_MainClient.park.removeVehicle(token, vehicle.getMatricul())) {
+									javax.swing.JOptionPane.showMessageDialog(null, "This vehicle was canceled!");
+								}
 							} catch (ParkException e) {
 								javax.swing.JOptionPane.showMessageDialog(null, e.getMessage()); 
 							} catch (AuthenticationException e) {

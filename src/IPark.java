@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 public interface IPark extends Remote {
-
+	
 	List<IVehicle> getVehicles(String token) throws AuthenticationException, RemoteException;
 	
 	List<IVehicle> getRentedVehicles(String token) throws AuthenticationException, RemoteException;
@@ -21,7 +21,9 @@ public interface IPark extends Remote {
 
 	IUser getRental(String token, String matricul) throws AuthenticationException, RemoteException;
 	
-	List<IVehicle> searchBy(String token, String list, Map<String, Object> filters) throws AuthenticationException, RemoteException;
+	List<IVehicle> searchVehiclesBy(String token, Map<String, Object> filters) throws AuthenticationException, RemoteException;
+	
+	List<IVehicle> searchUserRentedVehiclesBy(String token, Map<String, Object> filters) throws AuthenticationException, RemoteException;
 
 	boolean buy(String token, String matricul) throws AuthenticationException, ParkException, RemoteException;
 	
