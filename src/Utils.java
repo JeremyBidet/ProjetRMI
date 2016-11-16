@@ -17,7 +17,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Utils {
-
+	
 	public static class DB {
 
 		private List<HashMap<String, Object>> values;
@@ -64,12 +64,12 @@ public class Utils {
 
 	}
 
-	private static final String integerRegex = "-?\\d+";
-	private static final String doubleRegex = "-?\\d+\\.\\d+";
-	private static final String stringRegex = "\".*\"";
-	private static final String booleanRegex = "true|false";
-	//private static final String mailRegex = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
-	//private static final String sha1Regex = "[0-9a-f]{40}";
+	public static final String integerRegex = "\\d+";
+	public static final String doubleRegex = "\\d+\\.?\\d*";
+	public static final String stringRegex = "\".*\"";
+	public static final String booleanRegex = "true|false";
+	public static final String mailRegex = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
+	public static final String sha1Regex = "[0-9a-f]{40}";
 	
 	private static final String dbFieldRegex = "(" + "(" + integerRegex + ")" + "|" + "(" + doubleRegex + ")" + "|" + "(" + booleanRegex + ")" + "|" + "(" + stringRegex + ")" + ")";
 	private static final String dbRegex = dbFieldRegex + "(" + "," + dbFieldRegex + ")*";
@@ -83,7 +83,7 @@ public class Utils {
 	
 	public static DB parseDB(String db) {
 		try {
-			BufferedReader br = new BufferedReader(new FileReader(new File(db + ".db")));
+			BufferedReader br = new BufferedReader(new FileReader(new File(Utils.class.getResource(db + ".db").getFile())));
 			Pattern p1 = Pattern.compile(dbRegex);
 			String[] headers = null;
 			List<String[]> lines = new ArrayList<String[]>();
@@ -117,15 +117,15 @@ public class Utils {
 		}
 	}
 	
-	public static void insertDB(String db, Object[] values) throws RemoteException {
+	public static boolean insertDB(String db, Object[] values) throws RemoteException {
 		try {
-			BufferedReader br = new BufferedReader(new FileReader(new File(db + ".db")));
+			BufferedReader br = new BufferedReader(new FileReader(new File(Utils.class.getResource(db + ".db").getFile())));
 			StringBuilder sb = new StringBuilder();
 			String line = "";
 			while((line = br.readLine()) != null) {
 				if(Arrays.asList(line.replace("\"", "").split(",")).contains(values[0])) {
 					br.close();
-					throw new RemoteException("This login already exists!");
+					return false;
 				}
 				sb.append(line).append('\n');
 			}
@@ -134,17 +134,19 @@ public class Utils {
 				sb.append(',').append("\"" + values[i] + "\"");
 			}
 			sb.append('\n');
-			BufferedWriter bw = new BufferedWriter(new FileWriter(new File(db + ".db")));
+			BufferedWriter bw = new BufferedWriter(new FileWriter(new File(Utils.class.getResource(db + ".db").getFile())));
 			bw.write(sb.toString());
 			br.close();
 			bw.close();
+			return true;
 		} catch (IOException e) {
+			return false;
 		}
 	}
 	
 	public static void writeDB(String db, DB data) {
 		try {
-			BufferedWriter bw = new BufferedWriter(new FileWriter(new File(db + ".db")));
+			BufferedWriter bw = new BufferedWriter(new FileWriter(new File(Utils.class.getResource(db + ".db").getFile())));
 			bw.write(data.toString());
 			bw.close();
 		} catch(IOException e) {
