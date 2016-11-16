@@ -33,7 +33,7 @@ public class _MainClient extends Application {
 		try {
 			String codebase = "file:///home/whyt/workspace/ProjetRMI/src/";
 			System.setProperty("java.rmi.server.codebase", codebase);
-			System.setProperty("java.security.policy", "/home/whyt/workspace/ProjetRMI/resources/all.policy");
+			System.setProperty("java.security.policy", _MainClient.class.getResource("all.policy").toString());
 			System.setSecurityManager(new RMISecurityManager());
 			
 			_MainClient.auth = (IAuthentication) Naming.lookup("rmi://localhost:1099/AuthenticationService");

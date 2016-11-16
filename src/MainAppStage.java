@@ -13,7 +13,7 @@ public class MainAppStage extends Stage {
 	
 	public MainAppStage(String token) throws IOException {
 		super();
-		FXMLLoader loader = new FXMLLoader(getClass().getResource("/MainApp.fxml"));
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("MainApp.fxml"));
 		Parent root = loader.load();
 		MainAppController controller = loader.getController();
 		controller.setToken(token);
@@ -49,7 +49,7 @@ public class MainAppStage extends Stage {
 
 	public MainAppStage(String token, StageStyle style) throws IOException {
 		super(style);
-		Parent root = FXMLLoader.load(getClass().getResource("/MainApp.fxml"));
+		Parent root = FXMLLoader.load(getClass().getResource("MainApp.fxml"));
 		super.setTitle("UPEM Rent-a-car");
 		super.setScene(new Scene(root));
 		super.setResizable(false);
