@@ -227,7 +227,7 @@ public class Park extends UnicastRemoteObject implements IPark {
 				vehicleComments.remove(vehicle);
 				return true;
 			} else {
-				return false;
+				throw new ParkException("This vehicle is not buyable yet!");
 			}
 		}
 		throw new ParkException("This vehicle does not exist!");

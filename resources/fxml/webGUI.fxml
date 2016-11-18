@@ -16,7 +16,7 @@
 <?import javafx.scene.paint.Color?>
 <?import javafx.scene.text.Font?>
 
-<HBox id="HBox" alignment="CENTER_LEFT" spacing="5.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="MainAppController">
+<HBox id="HBox" alignment="CENTER_LEFT" spacing="5.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="WebGuiController">
    <padding>
       <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />
    </padding>
@@ -58,7 +58,7 @@
                                           <TableColumn fx:id="vehicleModel" prefWidth="136.43067932128906" text="Model" />
                                           <TableColumn fx:id="vehicleYear" prefWidth="83.8623046875" text="Année" />
                                           <TableColumn fx:id="vehicleMatricul" prefWidth="102.02157592773438" text="Immatriculation" />
-                                          <TableColumn fx:id="vehicleMatricul1" prefWidth="102.02157592773438" text="Prix" />
+                                          <TableColumn fx:id="vehiclePrice" prefWidth="102.02157592773438" text="Prix" />
                                           <TableColumn fx:id="vehicleAction" minWidth="8.3421630859375" prefWidth="86.08941650390625" text="Action" />
                                        </columns>
                                     </TableView>

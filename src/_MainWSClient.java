@@ -16,14 +16,16 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 @SuppressWarnings("deprecation")
-public class _MainClient extends Application {
+public class _MainWSClient extends Application {
 
 	public static IAuthentication auth;
 	public static IPark park;
 	
+	public static Bank bank;
+	
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-		Parent root = FXMLLoader.load(getClass().getResource("SignIn.fxml"));
+		Parent root = FXMLLoader.load(getClass().getResource("WSSignIn.fxml"));
 		primaryStage.setTitle("Sign In");
 		primaryStage.setScene(new Scene(root));
 		primaryStage.setResizable(false);
@@ -36,17 +38,20 @@ public class _MainClient extends Application {
 		try {
 			String codebase = "file:///home/whyt/workspace/ProjetRMI/bin/Server";
 			System.setProperty("java.rmi.server.codebase", codebase);
-			System.setProperty("java.security.policy", _MainClient.class.getResource("all.policy").toString());
+			System.setProperty("java.security.policy", _MainWSClient.class.getResource("all.policy").toString());
 			System.setSecurityManager(new RMISecurityManager());
 			
-			_MainClient.auth = (IAuthentication) Naming.lookup("rmi://localhost:1099/AuthenticationService");
-			_MainClient.park = (IPark) Naming.lookup("rmi://localhost:1099/ParkService");
+			_MainWSClient.auth = (IAuthentication) Naming.lookup("rmi://localhost:1099/AuthenticationService");
+			_MainWSClient.park = (IPark) Naming.lookup("rmi://localhost:1099/ParkService");
+			
+			bank = new BankServiceLocator().getBank();
+			((BankSoapBindingStub) bank).setMaintainSession(true);
 			
 			// TODO: load Observer notification
 			
-			Application.launch(_MainClient.class, args);
+			Application.launch(_MainWSClient.class, args);
 			
-			_MainClient.startTests(false);
+			_MainWSClient.startTests(false);
 			
 		} catch(Exception e) {
 			e.printStackTrace();
